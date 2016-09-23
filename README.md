@@ -1,1 +1,1 @@
-This repository for final course project of EA
+This repository for final course project of EA. Food Delivery System
