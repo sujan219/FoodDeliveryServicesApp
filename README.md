@@ -1,3 +1,1 @@
-This repository for final course project of EA
-
-hello envery ebosd
+This repository for final course project of EA. Food Delivery System
