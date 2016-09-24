@@ -17,7 +17,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 public abstract class User {
 	@Id
 	@GeneratedValue
-	private int id;
+	private long id;
 	
 	@Size(min=6,message="Username should be at least 6 characters long")
 	private String userName;

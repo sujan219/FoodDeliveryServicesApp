@@ -8,15 +8,15 @@ import javax.persistence.OneToMany;
 
 @Entity
 @DiscriminatorValue("ROLE_CONSUMER")
-public class Consumer extends User {
-	@OneToMany(mappedBy="consumer")
+public class Customer extends User {
+	@OneToMany(mappedBy="customer")
 	private List<Order> orders;
 	
-	public Consumer(){
+	public Customer(){
 		super();
 	}
 	
-	public Consumer(String userName, String password, String fullName, String address, String email, String contact,
+	public Customer(String userName, String password, String fullName, String address, String email, String contact,
 			boolean isActive) {
 		super(userName, password, fullName, address, email, contact, isActive);
 	}

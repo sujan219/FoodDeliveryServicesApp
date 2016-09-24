@@ -2,9 +2,14 @@ package cs544.fooddelivery.usermgmt;
 
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.View;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import cs544.fooddelivery.domain.User;
@@ -24,8 +30,13 @@ public class UserMgmtController {
 	@Autowired
 	private UserMgmtService userMgmtService;
 	
-	@RequestMapping(value={"/", "/login"})
-	public String main(
+	@RequestMapping("/")
+	public String main(){
+		return "redirect:/loginSuccess";
+	}
+	
+	@RequestMapping("/login")
+	public String login(
 		@RequestParam(value = "error", required = false) String error,
 		@RequestParam(value = "logout", required = false) String logout, Model model) {
 
@@ -51,25 +62,44 @@ public class UserMgmtController {
 			return new RedirectView("supplier");
 		}else{
 			userMgmtService.setLoggedInUser(userName);
-			return new RedirectView("dashboard_consumer");
+			return new RedirectView("customer/dashborad");
 		}
 	}
 	
 	@RequestMapping("/signup")
 	public String openSignup(Model model){
-		model.addAttribute("user", new UserMediator());
+		model.addAttribute("user", new UserProxy());
 		return "signup";
 	}
 	
 	@RequestMapping(value="/signup", method=RequestMethod.POST)
-	public String signup(@ModelAttribute("user") @Validated UserMediator user, BindingResult result, Model model){
+	public String signup(@ModelAttribute("user") @Validated UserProxy user, BindingResult result, RedirectAttributes attrs){
+		if(userMgmtService.getUserByUserName(user.getUserName()) != null){
+			result.rejectValue("userName", "", "Username is already taken");
+		}
+		
 		if(result.hasErrors()){
 			return "signup";
 		}else{
 			User domainUser = user.getDomainUser();
 			userMgmtService.addNewUser(domainUser);
-			model.addAttribute("msg", "Signup successful! You can now login");
-			return "index";
+			attrs.addFlashAttribute("msg", "Signup successful! You can now login");
+			return "redirect:login";
 		}
+	}
+	
+	@RequestMapping(value="/logout", method = RequestMethod.GET)
+	public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
+	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    if (auth != null){    
+	        new SecurityContextLogoutHandler().logout(request, response, auth);
+	    }
+	    return "redirect:/login?logout";//You can redirect wherever you want, but generally it's a good practice to show login screen again.
+	}
+	
+	@RequestMapping(value="/user/update")
+	public String openUserUpdate(Model model){
+		model.addAttribute("user", new UserProxy());
+		return "signup";
 	}
 }

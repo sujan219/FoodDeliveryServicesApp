@@ -12,7 +12,7 @@ import javax.persistence.OneToMany;
 public class Delivery {
 	@Id
 	@GeneratedValue
-	private int id;
+	private long id;
 	private Date date;
 	
 	@OneToMany(mappedBy="delivery")

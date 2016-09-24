@@ -13,7 +13,7 @@ import javax.persistence.OneToMany;
 public class Order {
 	@Id
 	@GeneratedValue
-	private int id;
+	private long id;
 	
 	private Date orderDate;
 	private Date expectedDeliveryDate;
@@ -23,7 +23,7 @@ public class Order {
 	private List<OrderLine> orderLines;
 	
 	@ManyToOne
-	private Consumer consumer;
+	private Customer customer;
 	
 	@ManyToOne
 	private Delivery delivery;

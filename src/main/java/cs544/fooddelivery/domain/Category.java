@@ -12,7 +12,6 @@ public class Category {
 	
 	@Id @GeneratedValue
 	private Long id;
-	
 	private String name;
 	
 	@OneToMany(mappedBy="category")
@@ -23,6 +22,10 @@ public class Category {
 	}
 
 	public void setId(Long id) {
+		this.id=id;
+	}
+
+	public void setId(long id) {
 		this.id = id;
 	}
 

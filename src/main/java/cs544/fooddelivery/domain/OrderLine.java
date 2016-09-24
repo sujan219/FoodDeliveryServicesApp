@@ -9,7 +9,7 @@ import javax.persistence.ManyToOne;
 public class OrderLine {
 	@Id
 	@GeneratedValue
-	private int id;
+	private long id;
 	private int quantity;
 	
 	@ManyToOne
