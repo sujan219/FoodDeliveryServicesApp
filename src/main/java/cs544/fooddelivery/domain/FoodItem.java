@@ -16,7 +16,6 @@ public class FoodItem {
 	private int id;
 	
 	private String name;
-	private Date expiryDate;
 	
 	@ManyToOne
 	private Category category;
@@ -24,6 +23,42 @@ public class FoodItem {
 	@ManyToOne
 	private Supplier supplier;
 	
-	@OneToMany
-	private List<OrderLine> orderLines;
+//	getters and setters
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+
+	public Supplier getSupplier() {
+		return supplier;
+	}
+
+	public void setSupplier(Supplier supplier) {
+		this.supplier = supplier;
+	}
+	
+	
+	
+//	@OneToMany
+//	private List<OrderLine> orderLines;
 }

@@ -21,6 +21,10 @@ public class UserMgmtService {
 		userDAO.save(user);
 	}
 	
+	public User getUserByUserName(String userName){
+		return userDAO.findOneByUserName(userName);
+	}
+	
 	public void setLoggedInUser(String userName){
 		loggedInUser = userDAO.findOneByUserName(userName);
 	}
