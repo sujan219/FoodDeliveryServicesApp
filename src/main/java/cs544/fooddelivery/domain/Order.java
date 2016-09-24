@@ -23,7 +23,7 @@ public class Order {
 	private List<OrderLine> orderLines;
 	
 	@ManyToOne
-	private Consumer consumer;
+	private Customer customer;
 	
 	@ManyToOne
 	private Delivery delivery;

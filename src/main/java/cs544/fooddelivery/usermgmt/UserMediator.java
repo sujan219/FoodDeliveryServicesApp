@@ -1,6 +1,6 @@
 package cs544.fooddelivery.usermgmt;
 
-import cs544.fooddelivery.domain.Consumer;
+import cs544.fooddelivery.domain.Customer;
 import cs544.fooddelivery.domain.Supplier;
 import cs544.fooddelivery.domain.User;
 
@@ -13,7 +13,7 @@ public class UserMediator extends User {
 		if(userType.equals("supplier")){
 			user = new Supplier(getUserName(), getPassword(), getFullName(), getAddress(), getEmail(), getContact(), true, deliveryRadius);
 		}else{
-			user = new Consumer(getUserName(), getPassword(), getFullName(), getAddress(), getEmail(), getContact(), true);
+			user = new Customer(getUserName(), getPassword(), getFullName(), getAddress(), getEmail(), getContact(), true);
 		}
 		return user;
 	}

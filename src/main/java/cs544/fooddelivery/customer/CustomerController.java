@@ -8,21 +8,15 @@ import cs544.fooddelivery.domain.User;
 import cs544.fooddelivery.usermgmt.UserMgmtService;
 
 @Controller
-@RequestMapping("/customer")
 public class CustomerController {
-		
-		@Autowired
-		private UserMgmtService userMgmtService;
-		
-		@RequestMapping(value={"/dashborad"})
-		public String main(Model model) {
 
-			User customer = userMgmtService.getLoggedInUser();
-			
-			model.addAttribute("user", customer);
-			
+	@Autowired
+	private UserMgmtService userMgmtService;
 
-			return "dashboardCustomer";
-		}
-
+	@RequestMapping(value = { "/customer/dashborad" })
+	public String main(Model model) {
+		User customer = userMgmtService.getLoggedInUser();
+		model.addAttribute("user", customer);
+		return "dashboardCustomer";
+	}
 }

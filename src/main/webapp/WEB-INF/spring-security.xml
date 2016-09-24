@@ -9,20 +9,12 @@
 		<intercept-url pattern="/" access="permitAll" />
 		<intercept-url pattern="/login" access="permitAll" />
 		<intercept-url pattern="/signup" access="permitAll" />
-<<<<<<< HEAD
-		<intercept-url pattern="/*"
-			access="hasAnyRole('ROLE_ADMIN', 'ROLE_CONSUMER', 'ROLE_SUPPLIER')" />
-
-		<form-login login-page="/login" username-parameter="username"
-			password-parameter="password" authentication-failure-url="/login?error"
-=======
 		<intercept-url pattern="/*" access="hasAnyRole('ROLE_ADMIN', 'ROLE_CONSUMER', 'ROLE_SUPPLIER')" />
 		
 		<form-login login-page="/login"
 			username-parameter="username"
 			password-parameter="password"
 			authentication-failure-url="/login?error"
->>>>>>> dc1e6597dd42db0e0a82f6e5d7884cdc867a4b84
 			default-target-url="/loginSuccess" />
 	</http>
 
