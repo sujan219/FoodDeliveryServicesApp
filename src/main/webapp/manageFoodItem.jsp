@@ -12,6 +12,7 @@
 </head>
 <body>
 	
+	
 	<table border=1>
         <thead>
             <tr>
@@ -28,17 +29,17 @@
                     <td><c:out value="${foodItem.description}" /></td>
                     <td><c:out value="${foodItem.category.name}" /></td>
                     
-                    <!-- /supplier/manageFoodItem/delete/{foodItemId} -->
-                    
                     <td><a href="manageFoodItem/edit/<c:out value="${foodItem.id}"/>">Edit</a></td>
                     <td><a href="manageFoodItem/delete/<c:out value="${foodItem.id}"/>">Delete</a></td>
                 </tr>
             </c:forEach>
         </tbody>
+        
     </table>
 	
 	<form action="manageFoodItem/add">
 		<button type="submit">New Food Item</button>
 	</form>
+	
 </body>
 </html>

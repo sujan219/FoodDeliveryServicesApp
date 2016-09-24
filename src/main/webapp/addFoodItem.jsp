@@ -11,7 +11,8 @@
 <title>Index</title>
 </head>
 <body>
-
+	<%@ include file="header.jsp" %>
+	<center>
 	<h1>Add Food Item</h1>
 	<form action="${editItem.id>0 ? '../add' : ''}" method="post">
 
@@ -26,6 +27,6 @@
 
 		<button type="submit">${editItem.id>0 ? 'Update' : 'Add'}</button>
 	</form>
-
+	</center>
 </body>
 </html>
