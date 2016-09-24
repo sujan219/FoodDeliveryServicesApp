@@ -6,9 +6,9 @@
 	http://www.springframework.org/schema/security/spring-security-3.2.xsd">
 
 	<http auto-config="true" use-expressions="true">
-		<intercept-url pattern="/" access="permitAll" />
 		<intercept-url pattern="/login" access="permitAll" />
 		<intercept-url pattern="/signup" access="permitAll" />
+		<intercept-url pattern="/" access="permitAll" />
 		<intercept-url pattern="/*" access="hasAnyRole('ROLE_ADMIN', 'ROLE_CONSUMER', 'ROLE_SUPPLIER')" />
 		
 		<form-login login-page="/login"

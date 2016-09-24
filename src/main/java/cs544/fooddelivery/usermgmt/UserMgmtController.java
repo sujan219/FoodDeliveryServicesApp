@@ -30,8 +30,13 @@ public class UserMgmtController {
 	@Autowired
 	private UserMgmtService userMgmtService;
 	
-	@RequestMapping(value={"/", "/login"})
-	public String main(
+	@RequestMapping("/")
+	public String main(){
+		return "redirect:/loginSuccess";
+	}
+	
+	@RequestMapping("/login")
+	public String login(
 		@RequestParam(value = "error", required = false) String error,
 		@RequestParam(value = "logout", required = false) String logout, Model model) {
 
@@ -63,12 +68,12 @@ public class UserMgmtController {
 	
 	@RequestMapping("/signup")
 	public String openSignup(Model model){
-		model.addAttribute("user", new UserMediator());
+		model.addAttribute("user", new UserProxy());
 		return "signup";
 	}
 	
 	@RequestMapping(value="/signup", method=RequestMethod.POST)
-	public String signup(@ModelAttribute("user") @Validated UserMediator user, BindingResult result, RedirectAttributes attrs){
+	public String signup(@ModelAttribute("user") @Validated UserProxy user, BindingResult result, RedirectAttributes attrs){
 		if(userMgmtService.getUserByUserName(user.getUserName()) != null){
 			result.rejectValue("userName", "", "Username is already taken");
 		}
@@ -90,5 +95,11 @@ public class UserMgmtController {
 	        new SecurityContextLogoutHandler().logout(request, response, auth);
 	    }
 	    return "redirect:/login?logout";//You can redirect wherever you want, but generally it's a good practice to show login screen again.
+	}
+	
+	@RequestMapping(value="/user/update")
+	public String openUserUpdate(Model model){
+		model.addAttribute("user", new UserProxy());
+		return "signup";
 	}
 }

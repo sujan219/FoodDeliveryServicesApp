@@ -4,9 +4,19 @@ import cs544.fooddelivery.domain.Customer;
 import cs544.fooddelivery.domain.Supplier;
 import cs544.fooddelivery.domain.User;
 
-public class UserMediator extends User {
+public class UserProxy extends User {
 	private double deliveryRadius;
 	private String userType;
+	
+	public UserProxy(){}
+	
+	public UserProxy(Supplier supplier){
+		//super(supplier.getUserName(), supplier.getPassword(), supplier.getFullName());
+	}
+	
+	public UserProxy(Customer customer){
+		
+	}
 	
 	public User getDomainUser(){
 		User user = null;

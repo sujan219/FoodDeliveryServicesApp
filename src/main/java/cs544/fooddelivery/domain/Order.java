@@ -13,7 +13,7 @@ import javax.persistence.OneToMany;
 public class Order {
 	@Id
 	@GeneratedValue
-	private int id;
+	private long id;
 	
 	private Date orderDate;
 	private Date expectedDeliveryDate;
