@@ -8,12 +8,15 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import cs544.fooddelivery.domain.User;
@@ -62,14 +65,18 @@ public class UserMgmtController {
 	}
 	
 	@RequestMapping(value="/signup", method=RequestMethod.POST)
-	public String signup(@ModelAttribute("user") @Validated UserMediator user, BindingResult result, Model model){
+	public String signup(@ModelAttribute("user") @Validated UserMediator user, BindingResult result, RedirectAttributes attrs){
+		if(userMgmtService.getUserByUserName(user.getUserName()) != null){
+			result.rejectValue("userName", "", "Username is already taken");
+		}
+		
 		if(result.hasErrors()){
 			return "signup";
 		}else{
 			User domainUser = user.getDomainUser();
 			userMgmtService.addNewUser(domainUser);
-			model.addAttribute("msg", "Signup successful! You can now login");
-			return "index";
+			attrs.addFlashAttribute("msg", "Signup successful! You can now login");
+			return "redirect:login";
 		}
 	}
 }
