@@ -48,7 +48,7 @@ public class UserMgmtController {
 			return new RedirectView("dashboard_admin");
 		}else if(roles.contains("ROLE_SUPPLIER")){
 			userMgmtService.setLoggedInUser(userName);
-			return new RedirectView("dashboard_supplier");
+			return new RedirectView("supplier");
 		}else{
 			userMgmtService.setLoggedInUser(userName);
 			return new RedirectView("dashboard_consumer");

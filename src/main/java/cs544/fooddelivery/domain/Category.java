@@ -18,4 +18,28 @@ public class Category {
 	
 	@OneToMany(mappedBy="category")
 	private List<FoodItem> foodItems;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public List<FoodItem> getFoodItems() {
+		return foodItems;
+	}
+
+	public void setFoodItems(List<FoodItem> foodItems) {
+		this.foodItems = foodItems;
+	}
 }
