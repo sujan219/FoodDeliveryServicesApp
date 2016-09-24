@@ -13,4 +13,14 @@ public class Supplier extends User {
 	
 	@OneToMany(mappedBy="supplier")
 	private List<FoodItem> foodItems;
+	
+	public Supplier(){
+		super();
+	}
+	
+	public Supplier(String userName, String password, String fullName, String address, String email, String contact,
+			boolean isActive, double deliveryRadius) {
+		super(userName, password, fullName, address, email, contact, isActive);
+		this.deliveryRadius = deliveryRadius;
+	}
 }

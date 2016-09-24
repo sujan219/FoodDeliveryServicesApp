@@ -11,4 +11,13 @@ import javax.persistence.OneToMany;
 public class Consumer extends User {
 	@OneToMany(mappedBy="consumer")
 	private List<Order> orders;
+	
+	public Consumer(){
+		super();
+	}
+	
+	public Consumer(String userName, String password, String fullName, String address, String email, String contact,
+			boolean isActive) {
+		super(userName, password, fullName, address, email, contact, isActive);
+	}
 }
