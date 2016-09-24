@@ -22,6 +22,8 @@ import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
+import cs544.fooddelivery.domain.Customer;
+import cs544.fooddelivery.domain.Supplier;
 import cs544.fooddelivery.domain.User;
 
 @Controller
@@ -48,7 +50,7 @@ public class UserMgmtController {
 			model.addAttribute("msg", "You've been logged out successfully.");
 		}
 
-		return "index";
+		return "login";
 	}
 	
 	@RequestMapping("/loginSuccess")
@@ -99,7 +101,12 @@ public class UserMgmtController {
 	
 	@RequestMapping(value="/user/update")
 	public String openUserUpdate(Model model){
-		model.addAttribute("user", new UserProxy());
+		User user = userMgmtService.getLoggedInUser();
+		if(user instanceof Supplier){
+			model.addAttribute("user", new UserProxy((Supplier) user));
+		}else{
+			model.addAttribute("user", new UserProxy((Customer) user));
+		}
 		return "signup";
 	}
 }

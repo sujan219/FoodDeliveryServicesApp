@@ -23,4 +23,12 @@ public class Supplier extends User {
 		super(userName, password, fullName, address, email, contact, isActive);
 		this.deliveryRadius = deliveryRadius;
 	}
+
+	public double getDeliveryRadius() {
+		return deliveryRadius;
+	}
+
+	public void setDeliveryRadius(double deliveryRadius) {
+		this.deliveryRadius = deliveryRadius;
+	}
 }

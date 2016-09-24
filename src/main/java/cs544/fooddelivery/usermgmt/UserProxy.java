@@ -8,19 +8,25 @@ public class UserProxy extends User {
 	private double deliveryRadius;
 	private String userType;
 	
+	private static final String USER_TYPE_SUPPLIER = "supplier";
+	private static final String USER_TYPE_CUSTOMER = "customer";
+	
 	public UserProxy(){}
 	
 	public UserProxy(Supplier supplier){
-		//super(supplier.getUserName(), supplier.getPassword(), supplier.getFullName());
+		super(supplier.getUserName(), supplier.getPassword(), supplier.getFullName(), supplier.getAddress(), supplier.getEmail(), supplier.getContact(), supplier.isActive());
+		userType = USER_TYPE_SUPPLIER;
+		deliveryRadius = supplier.getDeliveryRadius();
 	}
 	
 	public UserProxy(Customer customer){
-		
+		super(customer.getUserName(), customer.getPassword(), customer.getFullName(), customer.getAddress(), customer.getEmail(), customer.getContact(), customer.isActive());
+		userType = USER_TYPE_CUSTOMER;
 	}
 	
 	public User getDomainUser(){
 		User user = null;
-		if(userType.equals("supplier")){
+		if(userType.equals(USER_TYPE_SUPPLIER)){
 			user = new Supplier(getUserName(), getPassword(), getFullName(), getAddress(), getEmail(), getContact(), true, deliveryRadius);
 		}else{
 			user = new Customer(getUserName(), getPassword(), getFullName(), getAddress(), getEmail(), getContact(), true);
