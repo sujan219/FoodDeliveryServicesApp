@@ -51,7 +51,7 @@ public class UserMgmtController {
 			return new RedirectView("dashboard_supplier");
 		}else{
 			userMgmtService.setLoggedInUser(userName);
-			return new RedirectView("dashboard_consumer");
+			return new RedirectView("customer/dashborad");
 		}
 	}
 	

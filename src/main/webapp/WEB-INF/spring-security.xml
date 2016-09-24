@@ -9,19 +9,18 @@
 		<intercept-url pattern="/" access="permitAll" />
 		<intercept-url pattern="/login" access="permitAll" />
 		<intercept-url pattern="/signup" access="permitAll" />
-		<intercept-url pattern="/*" access="hasAnyRole('ROLE_ADMIN', 'ROLE_CONSUMER', 'ROLE_SUPPLIER')" />
-		
-		<form-login login-page="/login"
-			username-parameter="username"
-			password-parameter="password"
-			authentication-failure-url="/login?error"
-			default-target-url="/loginSuccess"/>
+		<intercept-url pattern="/*"
+			access="hasAnyRole('ROLE_ADMIN', 'ROLE_CONSUMER', 'ROLE_SUPPLIER')" />
+
+		<form-login login-page="/login" username-parameter="username"
+			password-parameter="password" authentication-failure-url="/login?error"
+			default-target-url="/loginSuccess" />
 	</http>
 
 	<authentication-manager>
 		<authentication-provider>
 			<user-service>
-				<user name="admin" password="pass" authorities="ROLE_ADMIN"/>
+				<user name="admin" password="pass" authorities="ROLE_ADMIN" />
 			</user-service>
 		</authentication-provider>
 		<authentication-provider>
@@ -30,7 +29,7 @@
 				authorities-by-username-query="select userName, user_role from user where userName =?  " />
 		</authentication-provider>
 	</authentication-manager>
-	
+
 	<beans:bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<beans:property name="driverClassName" value="com.mysql.jdbc.Driver" />
