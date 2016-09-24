@@ -1,22 +1,28 @@
 package cs544.fooddelivery.domain;
 
-import java.util.Date;
-import java.util.List;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
 @Entity
 public class FoodItem {
 	@Id
 	@GeneratedValue
-	private int id;
+	private Long id;
 	
 	private String name;
 	
+	private String Description;
+	
+	public String getDescription() {
+		return Description;
+	}
+
+	public void setDescription(String description) {
+		Description = description;
+	}
+
 	@ManyToOne
 	private Category category;
 	
@@ -25,11 +31,11 @@ public class FoodItem {
 	
 //	getters and setters
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -56,9 +62,7 @@ public class FoodItem {
 	public void setSupplier(Supplier supplier) {
 		this.supplier = supplier;
 	}
-	
-	
-	
+
 //	@OneToMany
 //	private List<OrderLine> orderLines;
 }

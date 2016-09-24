@@ -9,6 +9,6 @@ import cs544.fooddelivery.domain.User;
 
 @Repository
 @Transactional(propagation=Propagation.MANDATORY)
-public interface UserDAO extends JpaRepository<User, Integer>{
+public interface UserDAO extends JpaRepository<User, Long>{
 	public User findOneByUserName(String userName);
 }
