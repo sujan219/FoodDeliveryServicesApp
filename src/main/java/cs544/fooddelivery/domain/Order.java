@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -16,8 +18,6 @@ public class Order {
 	private Long id;
 	
 	private Date orderDate;
-	private Date expectedDeliveryDate;
-	private Date deliveryDate;
 	
 	public Long getId() {
 		return id;
@@ -33,22 +33,6 @@ public class Order {
 
 	public void setOrderDate(Date orderDate) {
 		this.orderDate = orderDate;
-	}
-
-	public Date getExpectedDeliveryDate() {
-		return expectedDeliveryDate;
-	}
-
-	public void setExpectedDeliveryDate(Date expectedDeliveryDate) {
-		this.expectedDeliveryDate = expectedDeliveryDate;
-	}
-
-	public Date getDeliveryDate() {
-		return deliveryDate;
-	}
-
-	public void setDeliveryDate(Date deliveryDate) {
-		this.deliveryDate = deliveryDate;
 	}
 
 	public List<OrderLine> getOrderLines() {
@@ -83,6 +67,9 @@ public class Order {
 	
 	@ManyToOne
 	private Delivery delivery;
+	
+	@Enumerated(EnumType.STRING)
+	private Status status;
 	
 //	methods
 	public double getTotalPrice(){

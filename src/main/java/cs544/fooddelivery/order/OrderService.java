@@ -23,7 +23,7 @@ public class OrderService {
 	}
 	
 	public List<Order> getAllRequestedOrderForSupplierId(Long supplierId){
-		return this.orderDAO.findAllOrdersForSupplier(supplierId);
+		return this.orderDAO.findAllPendingOrdersForSupplier(supplierId);
 	}
 	
 	public Order getOrder(Long orderId){

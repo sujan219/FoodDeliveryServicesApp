@@ -1,3 +1,9 @@
-body{
-	background:red;
+.itemList{
+	list-style: none;
+}
+
+.itemList>li{
+	border:1px solid black;
+	margin:5px;
+	padding:5px;
 }

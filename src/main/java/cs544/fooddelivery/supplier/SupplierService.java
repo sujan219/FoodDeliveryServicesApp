@@ -1,5 +1,6 @@
 package cs544.fooddelivery.supplier;
 
+import java.util.Date;
 import java.util.List;
 
 //package cs544.fooddelivery.usermgmt;
@@ -10,8 +11,12 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import cs544.fooddelivery.domain.Category;
+import cs544.fooddelivery.domain.Delivery;
 import cs544.fooddelivery.domain.FoodItem;
+import cs544.fooddelivery.domain.Status;
+import cs544.fooddelivery.order.OrderService;
 import cs544.fooddelivery.repositories.CategoryDAO;
+import cs544.fooddelivery.repositories.DeliveryDAO;
 import cs544.fooddelivery.repositories.FoodItemDAO;
 
 @Service
@@ -23,6 +28,12 @@ public class SupplierService {
 	
 	@Autowired
 	private CategoryDAO categoryDAO;
+	
+	@Autowired
+	private DeliveryDAO deliveryDAO;
+	
+	@Autowired
+	private OrderService orderService;
 	
 	public Category getCategoryWithCategoryId(Long categoryId){
 		return this.categoryDAO.findOne(categoryId);
@@ -54,5 +65,32 @@ public class SupplierService {
 	
 	public void setCategoryDAO(CategoryDAO categoryDAO) {
 		this.categoryDAO = categoryDAO;
+	}
+	
+	public void saveDelivery(Date startDate, String[] orderIds){
+		Delivery delivery = new Delivery();
+		delivery.setStartDateTime(new Date());
+		delivery.setStatus(Status.PENDING);
+		
+		for(String orderId:orderIds){
+			delivery.addOrder(orderService.getOrder(Long.parseLong(orderId)));
+		}
+		deliveryDAO.save(delivery);
+	}
+
+	public List<Delivery> getAllDeliveries(long supplierId){
+		return deliveryDAO.findAllBySupplierId(supplierId);
+	}
+	
+	public Delivery getDelivery(long deliveryId) {
+		return deliveryDAO.findOne(deliveryId);
+	}
+
+	public void completeDelivery(long deliveryId, Date endDate, int distance) {
+		Delivery delivery = getDelivery(deliveryId);
+		delivery.setEndDateTime(new Date());
+		delivery.setDistance(distance);
+		delivery.setStatus(Status.COMPLETE);
+		deliveryDAO.save(delivery);
 	}
 }
