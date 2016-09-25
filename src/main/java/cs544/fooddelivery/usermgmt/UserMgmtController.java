@@ -4,6 +4,7 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -53,18 +54,20 @@ public class UserMgmtController {
 		return "login";
 	}
 	
-	@RequestMapping(value={"/loginSuccess", "/home"})
-	public View loginSuccess(){
+	@RequestMapping("/loginSuccess")
+	public View loginSuccess(HttpSession session){
 		String userName = SecurityContextHolder.getContext().getAuthentication().getName();
 		Set<String> roles = AuthorityUtils.authorityListToSet(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
 		if(roles.contains("ROLE_ADMIN")){
 			return new RedirectView("dashboard_admin");
 		}else if(roles.contains("ROLE_SUPPLIER")){
 			userMgmtService.setLoggedInUser(userName);
+			session.setAttribute("user", userMgmtService.getLoggedInUser());
 			return new RedirectView("supplier");
 		}else{
 			userMgmtService.setLoggedInUser(userName);
-			return new RedirectView("customer/dashborad");
+			session.setAttribute("user", userMgmtService.getLoggedInUser());
+			return new RedirectView("home");
 		}
 	}
 	
@@ -96,7 +99,7 @@ public class UserMgmtController {
 	    if (auth != null){    
 	        new SecurityContextLogoutHandler().logout(request, response, auth);
 	    }
-	    return "redirect:/login?logout";//You can redirect wherever you want, but generally it's a good practice to show login screen again.
+	    return "redirect:/login?logout";
 	}
 	
 	@RequestMapping(value="/user/update")

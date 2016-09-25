@@ -14,6 +14,7 @@
 
 	<mvc:annotation-driven />
 	<!-- <mvc:resources location="/resources/**" mapping="/"/> -->
+	<mvc:resources mapping="/css/**" location="/css/" />
 
 	<jpa:repositories base-package="cs544.fooddelivery.repositories"
 		entity-manager-factory-ref="myEmf" transaction-manager-ref="txManager" />
@@ -36,9 +37,7 @@
 		<property name="password" value="root" />
 	</bean>
 
-
-	<bean id="myEmf"
-		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+	<bean id="myEmf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<property name="packagesToScan" value="cs544.fooddelivery.domain" />
 		<property name="jpaVendorAdapter">

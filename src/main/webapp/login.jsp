@@ -5,9 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Login</title>
-
-<link rel="stylesheet" href="css/index.css" >
+<title>Food Delivery System</title>
 
 </head>
 <body>
@@ -43,4 +41,3 @@
 		</form>
 	</center>
 </body>
-</html>

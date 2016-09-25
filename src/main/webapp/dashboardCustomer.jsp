@@ -12,21 +12,7 @@
 <body>
 	<%@ include file="header.jsp" %>
 	<center>
-		<table>
-			<tr>
-				<td>Full Name : </td>
-				<td>${user.fullName } (${user.userName })</td>
-			</tr>
-			<tr>
-				<td>Email : </td>
-				<td>${user.email }</td>
-			</tr>
-			<tr>
-				<td>Address:</td>
-				<td>${user.address }</td>
-			</tr>
-			
-		</table>
+		<%@ include file="viewCustomerProfile.jsp" %>
 	</center>
 </body>
 </html>
