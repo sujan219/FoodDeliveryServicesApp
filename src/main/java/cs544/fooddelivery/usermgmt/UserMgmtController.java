@@ -19,10 +19,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.view.RedirectView;
 
+import cs544.fooddelivery.domain.Admin;
 import cs544.fooddelivery.domain.Customer;
 import cs544.fooddelivery.domain.Supplier;
 import cs544.fooddelivery.domain.User;
@@ -35,7 +34,8 @@ public class UserMgmtController {
 	
 	@RequestMapping("/")
 	public String main(){
-		return "redirect:/loginSuccess";
+		System.out.println(".///////////");
+		return "redirect:/home";
 	}
 	
 	@RequestMapping("/login")
@@ -54,20 +54,26 @@ public class UserMgmtController {
 		return "login";
 	}
 	
-	@RequestMapping("/loginSuccess")
-	public View loginSuccess(HttpSession session){
+	@RequestMapping(value={"/loginSuccess"})
+	public String loginSuccess(HttpServletRequest request){
 		String userName = SecurityContextHolder.getContext().getAuthentication().getName();
 		Set<String> roles = AuthorityUtils.authorityListToSet(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
+		HttpSession session = request.getSession();
 		if(roles.contains("ROLE_ADMIN")){
-			return new RedirectView("dashboard_admin");
+			User user = new Admin();
+			session.setAttribute("user", user);
+			//return new RedirectView("dashboard_admin");
+			return "redirect:/dashboard_admin";
 		}else if(roles.contains("ROLE_SUPPLIER")){
 			userMgmtService.setLoggedInUser(userName);
 			session.setAttribute("user", userMgmtService.getLoggedInUser());
-			return new RedirectView("supplier");
+			return "redirect:/supplier";
+			//return new RedirectView("supplier");
 		}else{
 			userMgmtService.setLoggedInUser(userName);
 			session.setAttribute("user", userMgmtService.getLoggedInUser());
-			return new RedirectView("home");
+			//return new RedirectView("home");
+			return "redirect:/home";
 		}
 	}
 	
@@ -115,12 +121,14 @@ public class UserMgmtController {
 	}
 	
 	@RequestMapping(value="/user/update", method=RequestMethod.POST)
-	public String updateUser(@ModelAttribute("user") @Validated UserProxy user, BindingResult result){
+	public String updateUser(@ModelAttribute("user") @Validated UserProxy user, BindingResult result, HttpServletRequest request){
 		if(result.hasErrors()){
 			return "signup";
 		}else{
 			User domainUser = user.getDomainUser();
 			userMgmtService.addNewUser(domainUser);
+			userMgmtService.setLoggedInUser(domainUser.getUserName());
+			request.getSession().setAttribute("user", domainUser);
 			return "redirect:/home";
 		}
 	}

@@ -4,6 +4,20 @@
 
 <link rel="stylesheet" href="<c:url value="/resources/css/menu.css" />" >
 
-<span><h3>Food Delivery System</h3></span>
-<span style="float:right">${sessionScope.user.userName} | <a href="<c:url value="/logout" />" >Logout</a></span>
-<%@ include file="menu.jsp" %>
+<div>
+	<h2>Food Delivery System</h2>
+</div>
+<div>
+	<%@ include file="menu.jsp" %>
+	<span style="float:right">
+		<c:choose>
+			<c:when test="${sessionScope.user != null}">
+				${sessionScope.user.userName} | <a href="<c:url value='/user/update' />">My Account</a> | <a href="<c:url value='/logout' />" >Logout</a>
+			</c:when>
+			<c:otherwise>
+				<a href="<c:url value='/login'/>">Login</a>
+			</c:otherwise>
+		</c:choose>
+	</span>
+</div>
+<div><hr /></div>

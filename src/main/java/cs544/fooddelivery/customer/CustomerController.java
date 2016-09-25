@@ -17,7 +17,7 @@ public class CustomerController {
 	@Autowired
 	private SupplierService supplierService;
 
-	@RequestMapping(value = { "/home" })
+	@RequestMapping(value = "/home")
 	public String main(Model model) {
 		//User customer = userMgmtService.getLoggedInUser();
 		

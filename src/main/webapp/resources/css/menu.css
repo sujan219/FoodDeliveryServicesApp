@@ -1,5 +1,9 @@
 @CHARSET "ISO-8859-1";
 
+div{
+	overflow:hidden;
+}
+
 .no_image{
 	width: 100px;
 	height: 100px;
@@ -12,7 +16,8 @@
 
 #primary_nav_wrap
 {
-	margin-top:15px
+	/* margin-top:15px; */
+	float:left;
 }
 
 #primary_nav_wrap ul
