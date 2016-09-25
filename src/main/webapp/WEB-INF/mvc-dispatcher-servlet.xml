@@ -14,7 +14,7 @@
 
 	<mvc:annotation-driven />
 	<!-- <mvc:resources location="/resources/**" mapping="/"/> -->
-	<mvc:resources mapping="/css/**" location="/css/" />
+	<mvc:resources mapping="/resources/**" location="/resources/" />
 
 	<jpa:repositories base-package="cs544.fooddelivery.repositories"
 		entity-manager-factory-ref="myEmf" transaction-manager-ref="txManager" />

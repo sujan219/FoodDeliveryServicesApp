@@ -1,4 +1,15 @@
 @CHARSET "ISO-8859-1";
+
+.no_image{
+	width: 100px;
+	height: 100px;
+}
+.center {
+    margin: auto;
+    width: 30%;
+    padding: 10px;
+}
+
 #primary_nav_wrap
 {
 	margin-top:15px

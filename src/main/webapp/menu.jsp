@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 
-<nav id="primary_nav_wrap">
+<nav id="primary_nav_wrap" class="center">
 	<ul>
-		<li class="current-menu-item"><a href="/">Home</a></li>
+		<li class="current-menu-item"><a href="<c:url value="/home" />">Home</a></li>
 		<li><a href="#">Suppliers</a>
 			<ul>
 				<li><a href="#">Sub Menu 1</a></li>
