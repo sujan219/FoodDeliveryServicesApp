@@ -13,10 +13,10 @@ public class CustomerController {
 	@Autowired
 	private UserMgmtService userMgmtService;
 
-	@RequestMapping(value = { "/customer/dashborad" })
+	@RequestMapping(value = { "/home" })
 	public String main(Model model) {
 		User customer = userMgmtService.getLoggedInUser();
 		model.addAttribute("user", customer);
-		return "dashboardCustomer";
+		return "index";
 	}
 }

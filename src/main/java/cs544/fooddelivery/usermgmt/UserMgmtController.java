@@ -4,6 +4,7 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -48,21 +49,21 @@ public class UserMgmtController {
 			model.addAttribute("msg", "You've been logged out successfully.");
 		}
 
-		return "index";
+		return "login";
 	}
 	
 	@RequestMapping("/loginSuccess")
-	public View loginSuccess(){
+	public View loginSuccess(HttpSession session){
 		String userName = SecurityContextHolder.getContext().getAuthentication().getName();
 		Set<String> roles = AuthorityUtils.authorityListToSet(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
 		if(roles.contains("ROLE_ADMIN")){
 			return new RedirectView("dashboard_admin");
 		}else if(roles.contains("ROLE_SUPPLIER")){
-			userMgmtService.setLoggedInUser(userName);
+			userMgmtService.setLoggedInUser(userName, session);
 			return new RedirectView("supplier");
 		}else{
-			userMgmtService.setLoggedInUser(userName);
-			return new RedirectView("customer/dashborad");
+			userMgmtService.setLoggedInUser(userName,session);
+			return new RedirectView("home");
 		}
 	}
 	
