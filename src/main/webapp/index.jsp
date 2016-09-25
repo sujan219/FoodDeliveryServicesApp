@@ -6,7 +6,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Food Delivery System</title>
 
-<link rel="stylesheet" href="css/menu.css" >
 </head>
 <body>
 	<%@ include file="header.jsp" %>
