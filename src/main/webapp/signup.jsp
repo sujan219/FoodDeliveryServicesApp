@@ -1,16 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Signup</title>
+<title>User detail</title>
 
 <style>
-	#deliveryRadiusTR{
-		display:none;
-	}
 </style>
 
 <script>
@@ -37,7 +35,20 @@
 </head>
 <body>
 	<center>
-		<form:form action="signup" modelAttribute="user" onsubmit="return checkPassword()" method="POST">
+		<h1>
+			<c:choose>
+				<c:when test="${isEdit==null}">
+					<c:set var="button" value="Signup"></c:set>
+					Signup new user
+				</c:when>
+				<c:otherwise>
+					<c:set var="button" value="Update"></c:set>
+					Edit user details
+				</c:otherwise>
+			</c:choose>
+		</h1>
+		<form:form modelAttribute="user" onsubmit="return checkPassword()" method="POST">
+			<form:hidden path="id"/>
 			<table>
 				<tr>
 					<td>Full name</td>
@@ -78,7 +89,7 @@
 				<tr>
 					<td>Username</td>
 					<td>
-						<form:input path="userName" />
+						<form:input path="userName" readonly="${isEdit}" />
 					</td>
 					<td>
 						<form:errors path="userName"></form:errors>
@@ -102,26 +113,37 @@
 						<span id="cPasswordMsg"></span>
 					</td>
 				</tr>
+				
+				<c:choose>
+					<c:when test="${isEdit==null}">
+						<tr>
+							<td>User type</td>
+							<td>
+								<form:select path="userType" onchange="userTypeChanged()" id="userType">
+									<form:option value="supplier">Supplier</form:option>
+									<form:option value="consumer">Consumer</form:option>
+								</form:select>
+							</td>
+							<td></td>
+						</tr>
+					</c:when>
+					<c:otherwise>
+						<tr><td><form:hidden path="userType"/></td></tr>
+					</c:otherwise>
+				</c:choose>
+				
+				<c:if test="${user.userType != 'customer'}">
+					<tr id="deliveryRadiusTR">
+						<td>Delivery radius</td>
+						<td>
+							<form:input path="deliveryRadius"/>
+						</td>
+						<td></td>
+					</tr>
+				</c:if>
 				<tr>
-					<td>User type</td>
 					<td>
-						<form:select path="userType" onchange="userTypeChanged()" id="userType">
-							<form:option value="consumer">Consumer</form:option>
-							<form:option value="supplier">Supplier</form:option>
-						</form:select>
-					</td>
-					<td></td>
-				</tr>
-				<tr id="deliveryRadiusTR">
-					<td>Delivery radius</td>
-					<td>
-						<form:input path="deliveryRadius"/>
-					</td>
-					<td></td>
-				</tr>
-				<tr>
-					<td>
-						<input type="submit" value="Signup" />
+						<input type="submit" value="${button}" />
 					</td>
 				</tr>
 			</table>

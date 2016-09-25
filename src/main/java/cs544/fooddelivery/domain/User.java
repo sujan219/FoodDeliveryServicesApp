@@ -25,6 +25,14 @@ public abstract class User {
 	@Size(min=6,message="Password should be at least 6 characters long")
 	private String password;
 	
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
 	@Size(min=1,message="Cannot be empty")
 	private String fullName;
 	

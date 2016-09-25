@@ -53,7 +53,7 @@ public class UserMgmtController {
 		return "login";
 	}
 	
-	@RequestMapping("/loginSuccess")
+	@RequestMapping(value={"/loginSuccess", "/home"})
 	public View loginSuccess(){
 		String userName = SecurityContextHolder.getContext().getAuthentication().getName();
 		Set<String> roles = AuthorityUtils.authorityListToSet(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
@@ -102,11 +102,23 @@ public class UserMgmtController {
 	@RequestMapping(value="/user/update")
 	public String openUserUpdate(Model model){
 		User user = userMgmtService.getLoggedInUser();
+		model.addAttribute("isEdit", true);
 		if(user instanceof Supplier){
 			model.addAttribute("user", new UserProxy((Supplier) user));
 		}else{
 			model.addAttribute("user", new UserProxy((Customer) user));
 		}
 		return "signup";
+	}
+	
+	@RequestMapping(value="/user/update", method=RequestMethod.POST)
+	public String updateUser(@ModelAttribute("user") @Validated UserProxy user, BindingResult result){
+		if(result.hasErrors()){
+			return "signup";
+		}else{
+			User domainUser = user.getDomainUser();
+			userMgmtService.addNewUser(domainUser);
+			return "redirect:/home";
+		}
 	}
 }
