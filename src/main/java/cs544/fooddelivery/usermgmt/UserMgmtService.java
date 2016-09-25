@@ -1,5 +1,7 @@
 package cs544.fooddelivery.usermgmt;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -25,8 +27,9 @@ public class UserMgmtService {
 		return userDAO.findOneByUserName(userName);
 	}
 	
-	public void setLoggedInUser(String userName){
+	public void setLoggedInUser(String userName, HttpSession session){
 		loggedInUser = userDAO.findOneByUserName(userName);
+		session.setAttribute("user", loggedInUser);
 	}
 	
 	public User getLoggedInUser() {

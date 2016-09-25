@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<b>Food Delivery System</b> <span style="float:right">${user.userName} | <a href="${pageContext.request.contextPath}/logout" >Logout</a></span>
-<hr/>
+<span><h3>Food Delivery System</h3></span>
+<span style="float:right">${sessionScope.user.userName} | <a href="/logout" >Logout</a></span>
+<%@ include file="menu.jsp" %>
