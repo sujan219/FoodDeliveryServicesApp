@@ -16,7 +16,7 @@
 	<h1>Add Food Item</h1>
 	<form action="${editItem.id>0 ? '../add' : ''}" method="post">
 
-		<input type="hidden" name="id" value="${editItem.id}" />
+		<input type="hidden" name="foodItemId" value="${editItem.id}" />
 		Food Item Name: <input type="text" name="foodItemName" value="${editItem.name} " /><br />
 		Description: <input type="text" name="foodItemDesc" value="${editItem.description}" /><br /> 
 		Choose Category: <select name='categoryId'>
