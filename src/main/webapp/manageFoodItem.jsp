@@ -20,6 +20,7 @@
 					<th>Food Item Name</th>
 					<th>Description</th>
 					<th>Food Category</th>
+					<th>Price</th>
 					<th colspan=2>Action</th>
 				</tr>
 			</thead>
@@ -27,9 +28,9 @@
 				<c:forEach items="${foodItems}" var="foodItem">
 					<tr>
 						<td><c:out value="${foodItem.name}" /></td>
+						<td><c:out value="${foodItem.price}" /></td>	
 						<td><c:out value="${foodItem.description}" /></td>
 						<td><c:out value="${foodItem.category.name}" /></td>
-
 						<td><a
 							href="manageFoodItem/edit/<c:out value="${foodItem.id}"/>">Edit</a></td>
 						<td><a

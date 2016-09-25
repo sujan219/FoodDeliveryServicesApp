@@ -24,5 +24,9 @@ public class OrderService {
 	
 	public List<Order> getAllRequestedOrderForSupplierId(Long supplierId){
 		return this.orderDAO.findAllOrdersForSupplier(supplierId);
+	}
+	
+	public Order getOrder(Long orderId){
+		return this.orderDAO.findOne(orderId);
 	}	
 }

@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -11,8 +12,7 @@ import javax.persistence.OneToMany;
 
 @Entity(name="OrderTable")
 public class Order {
-	@Id
-	@GeneratedValue
+	@Id @GeneratedValue
 	private Long id;
 	
 	private Date orderDate;
@@ -75,7 +75,7 @@ public class Order {
 		this.delivery = delivery;
 	}
 
-	@OneToMany(mappedBy="order")
+	@OneToMany(mappedBy="order",fetch=FetchType.EAGER)
 	private List<OrderLine> orderLines;
 	
 	@ManyToOne
@@ -83,4 +83,15 @@ public class Order {
 	
 	@ManyToOne
 	private Delivery delivery;
+	
+//	methods
+	public double getTotalPrice(){
+		double totalPrice=0.0;
+		
+		for(OrderLine ol:this.orderLines){
+			totalPrice+=ol.getTotalPrice();
+		}
+		
+		return totalPrice;
+	}
 }

@@ -18,7 +18,8 @@
 
 		<input type="hidden" name="foodItemId" value="${editItem.id}" />
 		Food Item Name: <input type="text" name="foodItemName" value="${editItem.name} " /><br />
-		Description: <input type="text" name="foodItemDesc" value="${editItem.description}" /><br /> 
+		Description: <input type="text" name="foodItemDesc" value="${editItem.description}" /><br />
+		Price per Item: <input type="text" name="price" value="${editItem.price}" /><br />
 		Choose Category: <select name='categoryId'>
 			<c:forEach items="${categories}" var="category">
 				<option value="${category.id}">${category.name}</option>

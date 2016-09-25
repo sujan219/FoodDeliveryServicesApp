@@ -49,4 +49,9 @@ public class OrderLine {
 	
 	@ManyToOne
 	private FoodItem foodItem;
+	
+//	methods
+	public double getTotalPrice(){
+		return this.getFoodItem().getPrice()*this.quantity;
+	}
 }

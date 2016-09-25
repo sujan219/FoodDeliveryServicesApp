@@ -28,21 +28,13 @@ public class SupplierController {
 	OrderService orderService;
 	
 	@RequestMapping("/supplier")
-	public String displaySupplierDashboard(){
-		
-//		 Long l=Long(1);
-		
-		System.out.println("inside /supplier");
-		
-		for(Order order:this.orderService.getAllRequestedOrderForSupplierId(1L)){
-			System.out.println("orderline food Item name: "+order.getOrderDate());
-		}
-		
+	public String displaySupplierDashboard(ModelMap model){
+		model.addAttribute("orders", this.orderService.getAllRequestedOrderForSupplierId(1L));
 		return "supplier";
 	}
 	
 	@RequestMapping(value="/supplier/manageFoodItem/add", method=RequestMethod.POST)
-	public String addFoodItem(@RequestParam Long foodItemId,@RequestParam Long categoryId,@RequestParam String foodItemName,@RequestParam String foodItemDesc){
+	public String addFoodItem(@RequestParam double price,@RequestParam Long foodItemId,@RequestParam Long categoryId,@RequestParam String foodItemName,@RequestParam String foodItemDesc){
 		
 		FoodItem fi=new FoodItem();
 		
@@ -53,6 +45,7 @@ public class SupplierController {
 		fi.setCategory(this.supplierService.getCategoryWithCategoryId(categoryId));
 		fi.setName(foodItemName);
 		fi.setDescription(foodItemDesc);
+		fi.setPrice(price);
 		fi.setSupplier((Supplier)this.userService.getLoggedInUser());
 		this.supplierService.saveFoodItem(fi);
 
