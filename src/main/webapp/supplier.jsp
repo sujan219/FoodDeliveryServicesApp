@@ -10,10 +10,14 @@
 <%@ include file="header.jsp" %>
 	<center>
 		<h2>THis is supplier Dashboard</h2>
-		<form action="supplier/manageFoodItem">
-			<button type="submit">Manage Food Items</button>
-		</form>
 	</center>	
+	
+	<form action="supplier/manageFoodItem">
+			<button type="submit">Manage Food Items</button>
+			<button type="submit">Make offer</button>
+			<button type="submit">Order Full History</button>
+			<button type="submit">Nofication</button>
+	</form>
 	
 </body>
 </html>

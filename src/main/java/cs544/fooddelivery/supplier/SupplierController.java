@@ -9,7 +9,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import cs544.fooddelivery.domain.FoodItem;
+import cs544.fooddelivery.domain.Order;
+import cs544.fooddelivery.domain.OrderLine;
 import cs544.fooddelivery.domain.Supplier;
+import cs544.fooddelivery.order.OrderService;
 import cs544.fooddelivery.usermgmt.UserMgmtService;
 
 @Controller
@@ -21,8 +24,20 @@ public class SupplierController {
 	@Autowired
 	UserMgmtService userService;
 	
+	@Autowired
+	OrderService orderService;
+	
 	@RequestMapping("/supplier")
 	public String displaySupplierDashboard(){
+		
+//		 Long l=Long(1);
+		
+		System.out.println("inside /supplier");
+		
+		for(Order order:this.orderService.getAllRequestedOrderForSupplierId(1L)){
+			System.out.println("orderline food Item name: "+order.getOrderDate());
+		}
+		
 		return "supplier";
 	}
 	
