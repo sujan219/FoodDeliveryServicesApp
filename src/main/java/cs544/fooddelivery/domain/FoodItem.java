@@ -13,7 +13,16 @@ public class FoodItem {
 	private String name;
 	private String Description;
 	private double price;
+	private String imgUrl;
 	
+	public String getImgUrl() {
+		return imgUrl;
+	}
+
+	public void setImgUrl(String imgUrl) {
+		this.imgUrl = imgUrl;
+	}
+
 	public double getPrice() {
 		return price;
 	}

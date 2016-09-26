@@ -19,14 +19,21 @@
 	<jpa:repositories base-package="cs544.fooddelivery.repositories"
 		entity-manager-factory-ref="myEmf" transaction-manager-ref="txManager" />
 
-	<bean
-		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix">
 			<value>/</value>
 		</property>
 		<property name="suffix">
 			<value>.jsp</value>
 		</property>
+	</bean>
+	
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+
+		 <!-- setting maximum upload size -->
+		<property name="maxUploadSize" value="100000" />
+
 	</bean>
 
 	<bean id="dataSource"
