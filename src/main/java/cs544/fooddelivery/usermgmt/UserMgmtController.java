@@ -35,7 +35,7 @@ public class UserMgmtController {
 	@RequestMapping("/")
 	public String main(){
 		System.out.println(".///////////");
-		return "redirect:/home";
+		return "/home";
 	}
 	
 	@RequestMapping("/login")
