@@ -12,6 +12,20 @@ public class OrderLine {
 	private Long id;
 	private int quantity;
 	
+	@ManyToOne
+	private Order order;
+	
+	@ManyToOne
+	private FoodItem foodItem;
+	
+	public OrderLine() {
+		
+	}
+	
+	public OrderLine(FoodItem item) {
+		this.foodItem = item;
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -44,11 +58,7 @@ public class OrderLine {
 		this.foodItem = foodItem;
 	}
 
-	@ManyToOne
-	private Order order;
 	
-	@ManyToOne
-	private FoodItem foodItem;
 	
 //	methods
 	public double getTotalPrice(){

@@ -11,7 +11,7 @@ public class FoodItem {
 	@GeneratedValue
 	private Long id;
 	private String name;
-	private String Description;
+	private String description;
 	private double price;
 	private String imgUrl;
 	
@@ -36,20 +36,20 @@ public class FoodItem {
 	}
 
 	public String getDescription() {
-		return Description;
+		return description;
 	}
 
 	public void setDescription(String description) {
-		Description = description;
+		this.description = description;
 	}
 
 	@ManyToOne
 	private Category category;
-	
+
 	@ManyToOne
 	private Supplier supplier;
-	
-//	getters and setters
+
+	// getters and setters
 	public Long getId() {
 		return id;
 	}
@@ -82,6 +82,6 @@ public class FoodItem {
 		this.supplier = supplier;
 	}
 
-//	@OneToMany
-//	private List<OrderLine> orderLines;
+	// @OneToMany
+	// private List<OrderLine> orderLines;
 }
