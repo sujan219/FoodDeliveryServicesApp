@@ -1,5 +1,6 @@
 package cs544.fooddelivery.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -12,13 +13,32 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-@Entity(name="OrderTable")
+@Entity(name = "OrderTable")
 public class Order {
-	@Id @GeneratedValue
+	@Id
+	@GeneratedValue
 	private Long id;
-	
+
 	private Date orderDate;
-	
+
+	@OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
+	private List<OrderLine> orderLines;
+
+	@ManyToOne
+	private Customer customer;
+
+	@ManyToOne
+	private Delivery delivery;
+
+	@Enumerated(EnumType.STRING)
+	private Status status;
+
+	private Double totalPrice;
+
+	public Order() {
+		orderLines = new ArrayList<OrderLine>();
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -59,26 +79,26 @@ public class Order {
 		this.delivery = delivery;
 	}
 
-	@OneToMany(mappedBy="order",fetch=FetchType.EAGER)
-	private List<OrderLine> orderLines;
-	
-	@ManyToOne
-	private Customer customer;
-	
-	@ManyToOne
-	private Delivery delivery;
-	
-	@Enumerated(EnumType.STRING)
-	private Status status;
-	
-//	methods
-	public double getTotalPrice(){
-		double totalPrice=0.0;
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+
+	public void setTotalPrice(Double totalPrice) {
+		this.totalPrice = totalPrice;
+	}
+
+	// methods
+	public double getTotalPrice() {
 		
-		for(OrderLine ol:this.orderLines){
-			totalPrice+=ol.getTotalPrice();
+
+		for (OrderLine ol : this.orderLines) {
+			this.totalPrice += ol.getTotalPrice();
 		}
-		
-		return totalPrice;
+
+		return this.totalPrice;
 	}
 }
