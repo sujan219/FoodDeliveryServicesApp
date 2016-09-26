@@ -9,10 +9,9 @@
 <link rel="stylesheet" href="<c:url value="/resources/css/index.css" />">
 </head>
 <body>
-	<%@ include file="header.jsp"%>
-	<center>
+	
 		<h2>Delivery detail</h2>
-	</center>
+	
 
 	<c:if test="${delivery.status != 'COMPLETE'}">
 		<form method="post">

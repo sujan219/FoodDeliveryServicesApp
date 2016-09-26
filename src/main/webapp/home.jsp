@@ -2,7 +2,12 @@
 	pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<<<<<<< HEAD
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+=======
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+
+>>>>>>> 49687a592e9950561eb58b5c39ab5f691ccf21da
 <h3>Foods</h3>
 <center>
 	<table>
@@ -10,15 +15,17 @@
 			<c:if test="${rowCounter.count % 3 == 1}">
 				<tr>
 			</c:if>
-			<td><img class="no_image"
-				src="<c:url value="/resources/img/no-image.png" />" /> <br />${row.name}
-				<br />
+			<td><img class="no_image" src="<c:url value="/resources/img/no-image.png" />" /> <br />${row.name}
+				$ ${row.price }<br />
 				
 				<sec:authorize access="!hasRole('ROLE_ADMIN') and !hasRole('ROLE_SUPPLIER')">
-					<form action="" method="post">
-						<input type="hidden" name="itemId" value="${row.id }" /> <input
-							type="submit" value="Add to Cart">
-					</form>
+					<form:form action="addToCart" modelAttribute="item" method="post">
+					<form:hidden path="id" value="${row.id}" /> 
+					<form:hidden path="name" value="${row.name}" /> 
+					<form:hidden path="price" value="${row.price}" /> 
+					<form:hidden path="Description" value="${row.description}" /> 
+					<input type="submit" value="Add to Cart">
+				</form:form>
 				</sec:authorize>
 			</td>
 			<c:if

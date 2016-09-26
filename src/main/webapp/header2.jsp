@@ -6,11 +6,11 @@
 	<h2>Food Delivery System</h2>
 </div>
 <div>
-	<%@ include file="menu.jsp" %>
+	<%@ include file="menu2.jsp" %>
 	<span style="float:right">
 		<c:choose>
 			<c:when test="${sessionScope.user != null}">
-				${sessionScope.user.userName} | <a href="<c:url value="/myCart" />">My Cart</a> |<a href="<c:url value='/user/update' />">My Account</a> | <a href="<c:url value='/logout' />" >Logout</a>
+				${sessionScope.user.userName} |<a href="<c:url value='/user/update' />">My Account</a> | <a href="<c:url value='/logout' />" >Logout</a>
 			</c:when>
 			<c:otherwise>
 				<a href="<c:url value='/login'/>">Login</a>
