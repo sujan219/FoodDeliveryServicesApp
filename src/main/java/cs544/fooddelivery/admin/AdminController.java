@@ -73,7 +73,7 @@ public class AdminController {
 		return "redirect:/dashboard_admin";
 	}
 	
-	@RequestMapping(value = "/deleteCategory/{id}")
+	@RequestMapping(value = "/deleteCategory/{id}", method = RequestMethod.GET)
 	public String deleteCategory( @PathVariable("id")int id,Model model) {
 	
 		adminService.delete(id);
