@@ -111,7 +111,7 @@ public class UserMgmtController {
 		}else{
 			model.addAttribute("user", new UserProxy((Customer) user));
 		}
-		return "signup";
+		return "editProfile";
 	}
 	
 	@RequestMapping(value="/user/update", method=RequestMethod.POST)

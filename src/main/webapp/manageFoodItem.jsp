@@ -24,8 +24,8 @@
 						<td><c:out value="${foodItem.price}" /></td>
 						<td><c:out value="${foodItem.description}" /></td>
 						<td><c:out value="${foodItem.category.name}" /></td>	
-						<td><a href="<c:out value="/supplier/manageFoodItem/edit/${foodItem.id}"/>">Edit</a></td>
-						<td><a	href="<c:out value="/supplier/manageFoodItem/delete/${foodItem.id}"/>">Delete</a></td>
+						<td><a href="<c:out value="manageFoodItem/edit/${foodItem.id}"/>">Edit</a></td>
+						<td><a	href="<c:out value="manageFoodItem/delete/${foodItem.id}"/>">Delete</a></td>
 					</tr>
 				</c:forEach>
 			</tbody>

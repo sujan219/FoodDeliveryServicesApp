@@ -12,9 +12,9 @@
 </head>
 <body>
 	<tiles:insertAttribute name="header" />
-	<center>
+	<span>
 		<tiles:insertAttribute name="body" />
-	</center>
+	</span>
 	<tiles:insertAttribute name="footer" />
 </body>
 </html>

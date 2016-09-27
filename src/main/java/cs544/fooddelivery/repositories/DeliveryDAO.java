@@ -15,4 +15,7 @@ import cs544.fooddelivery.domain.Delivery;
 public interface DeliveryDAO extends JpaRepository<Delivery, Long>{
 	@Query("SELECT DISTINCT d FROM Delivery d JOIN d.orders o JOIN o.orderLines ol WHERE ol.foodItem.supplier.id= ?1")
 	public List<Delivery> findAllBySupplierId(long supplierId);
+	
+	@Query("SELECT DISTINCT d FROM Delivery d WHERE id = ?1")
+	public Delivery getDelivery(long id);
 }

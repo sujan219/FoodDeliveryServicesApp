@@ -42,23 +42,29 @@ public class CustomerServiceImpl implements ICustomerService {
 		Order cart = (Order) session.getAttribute("order");
 		OrderLine newOrderLine = new OrderLine(item);
 		if(cart!=null){
+			if(cart.getSupplierId()!=item.getSupplier().getId()){
+				throw new IllegalArgumentException("Incompatible item in cart.");
+			}
 			for (OrderLine orderLine : cart.getOrderLines()) {
 				if(orderLine.getFoodItem().getId().equals(item.getId())){
 					int quantity = orderLine.getQuantity()+1;
-					orderLine.setQuantity(quantity);
-					
+					orderLine.setQuantity(quantity);					
 					flag=false;
 					break;
 				}
 			}
 			if(flag){
 				newOrderLine.setQuantity(1);
-				cart.getOrderLines().add(newOrderLine);
+				//newOrderLine.setOrder(cart);
+				cart.addOrderLine(newOrderLine);
 			}
 		}else{
 			cart = new Order();
 			newOrderLine.setQuantity(1);
-			cart.getOrderLines().add(newOrderLine);
+			//newOrderLine.setOrder(cart);
+			cart.addOrderLine(newOrderLine);
+			cart.setSupplierId(item.getSupplier().getId());
+			
 		}
 		return cart;
 	}

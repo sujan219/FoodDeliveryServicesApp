@@ -92,7 +92,7 @@ public class SupplierService {
 	}
 	
 	public Delivery getDelivery(long deliveryId) {
-		return deliveryDAO.findOne(deliveryId);
+		return deliveryDAO.getDelivery(deliveryId);
 	}
 
 	public void completeDelivery(long deliveryId, Date endDate, int distance) {

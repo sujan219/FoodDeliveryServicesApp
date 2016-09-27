@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -12,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 @Entity(name = "OrderTable")
 public class Order {
@@ -20,8 +22,10 @@ public class Order {
 	private Long id;
 
 	private Date orderDate;
+	@Transient
+	private Long supplierId;
 
-	@OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "order", fetch = FetchType.EAGER,cascade=CascadeType.ALL)
 	private List<OrderLine> orderLines;
 
 	@ManyToOne
@@ -30,11 +34,6 @@ public class Order {
 	@ManyToOne
 	private Delivery delivery;
 
-	@Enumerated(EnumType.STRING)
-	private Status status;
-
-	private Double totalPrice;
-	
 	public Order() {
 		orderLines = new ArrayList<OrderLine>();
 	}
@@ -77,28 +76,30 @@ public class Order {
 
 	public void setDelivery(Delivery delivery) {
 		this.delivery = delivery;
-	}
-
-	public Status getStatus() {
-		return status;
-	}
-
-	public void setStatus(Status status) {
-		this.status = status;
-	}
-
-	public void setTotalPrice(Double totalPrice) {
-		this.totalPrice = totalPrice;
-	}
+	}	
 
 	// methods
 	public double getTotalPrice() {
 		
-
+		double totalPrice=0.0;
 		for (OrderLine ol : this.orderLines) {
-			this.totalPrice += ol.getTotalPrice();
+			totalPrice += ol.getTotalPrice();
 		}
 
-		return this.totalPrice;
+		return totalPrice;
 	}
+
+	public Long getSupplierId() {
+		return supplierId;
+	}
+
+	public void setSupplierId(Long supplierId) {
+		this.supplierId = supplierId;
+	}
+	
+	public void addOrderLine(OrderLine ol){
+		orderLines.add(ol);
+		ol.setOrder(this);
+	}
+	
 }
