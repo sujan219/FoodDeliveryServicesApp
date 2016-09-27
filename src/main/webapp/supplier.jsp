@@ -1,50 +1,46 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<link rel="stylesheet" href="../resources/css/supplier.css">
-<link rel="stylesheet" href="<c:url value="/resources/css/index.css" />">
-<title>Supplier</title>
-</head>
-<body>
-	<%@ include file="header.jsp"%>
-	<center>
-		<h2>This is supplier Dashboard</h2>
-	</center>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<link rel="stylesheet" href="<c:url value="/resources/css/index.css" />"> 
+<h2>Dashboard</h2>
 
-	<form action="supplier/makeDelivery" method="post">
-		<input type="submit" value="Make delivery" />
-		<ul class="itemList">
-			<c:forEach items="${orders}" var="order">
-				<li><span><input type="checkbox"
-						name="orderIds[]" value="${order.id}" /></span> <span>
-						<div id="rowOrder">
-							<c:forEach items="${order.orderLines}" var="orderline">
-								<div id="viewFoodItem">
-									<span> ${orderline.foodItem.name} -
-										${orderline.quantity}</span>
-								</div>
-							</c:forEach>
-
-							<div>Price : ${order.getTotalPrice()}</div>
-							<div>Ordered by ${order.customer.fullName}</div>
-							<div>From: ${order.customer.address}</div>
-						</div> <a href="order/${order.id}">
-							<button type="submit">View Order Detail</button>
-					</a>
-				</span>
-			</c:forEach>
-		</ul>
-	</form>
-
-	<a href="supplier/deliveries"><button type="submit">View Deliveries</button></a>
-	<a href="supplier/manageFoodItem"><button type="submit">Manage Food Items</button></a>
-	<a href="#"><button type="submit">Make offer</button></a>
-	<!-- <a href="supplier/manageFoodItem"><button type="submit">Order Full History</button></a>
-	<a href="supplier/manageFoodItem"><button type="submit">Notification</button></a> -->
-
-</body>
-</html>
+<c:if test="${not empty orders}">
+<form id="supplierForm" action="supplier/makeDelivery" method="post">
+	<button class="button" type="submit">Make Delivery</button>
+	<table border=1>
+		<tr>
+			<td><input type="checkbox" id="selecctall"/> Select All</td>
+			<td></td>
+		</tr>
+		<c:forEach items="${orders}" var="order">
+			<tr>
+				<td><input class="checkbox" type="checkbox" name="orderIds[]" value="${order.id}" /></td>
+				<td style="background-color:AliceBlue;">
+					<b><a href="<c:url value='/order/${order.id }' />">OrderId#${order.id} ${order.customer.fullName}</a></b>
+					<ul>
+					<c:forEach items="${order.orderLines}" var="orderline">
+						
+							<li>${orderline.foodItem.name} (${orderline.quantity} * $${orderline.foodItem.price})</li>
+						
+					</c:forEach>
+					</ul>
+					<div style="float:right">
+						Total : $${order.getTotalPrice()}						
+					</div>
+				</td>
+			</tr>
+		</c:forEach>
+	</table>
+</form>
+</c:if>
+<c:if test="${empty orders}">
+	<b>No Order Placed</b>
+</c:if>
+<script language="JavaScript">
+$(document).ready(function() {
+	$("#selecctall").change(function () {
+	    $("input:checkbox").prop('checked', $(this).prop("checked"));
+	});
+});
+</script>

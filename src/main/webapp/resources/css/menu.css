@@ -1,5 +1,12 @@
 @CHARSET "ISO-8859-1";
-
+.divBorder {
+    border: 1px solid red;
+    border-radius: 5px;
+    width:400px;
+}
+.divTitle{
+	background: rgba(173, 33, 64, 0.24);
+}
 div{
 	overflow:hidden;
 }
@@ -8,6 +15,15 @@ div{
 	width: 100px;
 	height: 100px;
 }
+
+input#remove {
+	background: url(../img/remove.png);
+	background-repeat: no-repeat;
+	width: 40px;
+	height: 40px;
+	border: 0;
+}
+
 .center {
     margin: auto;
     width: 30%;
@@ -90,4 +106,8 @@ div{
 #primary_nav_wrap ul li:hover > ul
 {
 	display:block
+}
+
+#supplierForm input{
+	width:30px;
 }

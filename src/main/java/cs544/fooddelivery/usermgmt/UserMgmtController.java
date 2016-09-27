@@ -25,6 +25,7 @@ import cs544.fooddelivery.domain.Admin;
 import cs544.fooddelivery.domain.Customer;
 import cs544.fooddelivery.domain.Supplier;
 import cs544.fooddelivery.domain.User;
+import cs544.fooddelivery.log.LogWriter;
 
 @Controller
 public class UserMgmtController {
@@ -32,11 +33,8 @@ public class UserMgmtController {
 	@Autowired
 	private UserMgmtService userMgmtService;
 	
-	@RequestMapping("/")
-	public String main(){
-		System.out.println(".///////////");
-		return "redirect:/home";
-	}
+	@Autowired
+	private LogWriter logWriter;
 	
 	@RequestMapping("/login")
 	public String login(
@@ -45,16 +43,18 @@ public class UserMgmtController {
 
 		if (error != null) {
 			model.addAttribute("error", "Invalid username and password!");
+			logWriter.writeInfoLog("Login not successful");
 		}
 
 		if (logout != null) {
 			model.addAttribute("msg", "You've been logged out successfully.");
+			logWriter.writeInfoLog("Login successful");
 		}
 
 		return "login";
 	}
 	
-	@RequestMapping(value={"/loginSuccess"})
+	@RequestMapping(value={"/loginSuccess", "/"})
 	public String loginSuccess(HttpServletRequest request){
 		String userName = SecurityContextHolder.getContext().getAuthentication().getName();
 		Set<String> roles = AuthorityUtils.authorityListToSet(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
@@ -95,6 +95,7 @@ public class UserMgmtController {
 			User domainUser = user.getDomainUser();
 			userMgmtService.addNewUser(domainUser);
 			attrs.addFlashAttribute("msg", "Signup successful! You can now login");
+			logWriter.writeInfoLog("Signup successful");
 			return "redirect:login";
 		}
 	}
@@ -105,6 +106,7 @@ public class UserMgmtController {
 	    if (auth != null){    
 	        new SecurityContextLogoutHandler().logout(request, response, auth);
 	    }
+	    logWriter.writeInfoLog("Login out successful");
 	    return "redirect:/login?logout";
 	}
 	
@@ -117,7 +119,7 @@ public class UserMgmtController {
 		}else{
 			model.addAttribute("user", new UserProxy((Customer) user));
 		}
-		return "signup";
+		return "editProfile";
 	}
 	
 	@RequestMapping(value="/user/update", method=RequestMethod.POST)

@@ -21,6 +21,16 @@ public interface OrderDAO extends JpaRepository<Order, Long>  {
 	@Query("select distinct ol.order FROM OrderLine as ol JOIN ol.foodItem as f WHERE f.supplier.id= ?1 AND ol.order.delivery IS NULL")
     public List<Order> findAllPendingOrdersForSupplier(Long supplierId);
 	
+	@Query("select distinct o "
+			+ "FROM OrderLine as ol "
+			+ "JOIN ol.order o "
+			+ "JOIN ol.foodItem as f "
+			+ "WHERE o.customer.id= ?1")
+    public List<Order> findAllPendingOrdersForCustomer(Long customerId);
+
+	@Query("select distinct ol.order FROM OrderLine as ol JOIN ol.foodItem as f WHERE ol.order.customer.id= ?1 AND ol.order.delivery.status = 'COMPLETE'")
+    public List<Order> findAllDeliveredOrdersForCustomer(Long customerId);
+
 	@Query("select distinct ol.order FROM OrderLine as ol JOIN ol.foodItem as f WHERE f.supplier.id= ?1 AND ol.order.delivery.status = 'PENDING'")
 	public List<Order> findAllInProgressOrdersForSupplier(Long supplierId);
 	

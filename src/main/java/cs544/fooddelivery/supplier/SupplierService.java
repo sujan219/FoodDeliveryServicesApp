@@ -14,10 +14,12 @@ import cs544.fooddelivery.domain.Category;
 import cs544.fooddelivery.domain.Delivery;
 import cs544.fooddelivery.domain.FoodItem;
 import cs544.fooddelivery.domain.Status;
+import cs544.fooddelivery.domain.User;
 import cs544.fooddelivery.order.OrderService;
 import cs544.fooddelivery.repositories.CategoryDAO;
 import cs544.fooddelivery.repositories.DeliveryDAO;
 import cs544.fooddelivery.repositories.FoodItemDAO;
+import cs544.fooddelivery.repositories.UserDAO;
 
 @Service
 @Transactional(propagation=Propagation.REQUIRED)
@@ -35,12 +37,23 @@ public class SupplierService {
 	@Autowired
 	private OrderService orderService;
 	
+	@Autowired
+	private UserDAO userDAO;
+	
 	public Category getCategoryWithCategoryId(Long categoryId){
 		return this.categoryDAO.findOne(categoryId);
 	}
 	
 	public List<Category> getAllCategories(){
 		return this.categoryDAO.findAll();
+	}
+	
+	public List<User> getAllSuppliers(){
+		return userDAO.findAllSuppliers();
+	}
+	
+	public List<FoodItem> getAllFoodItemBySupplier_Id(long supplierId){
+		return this.foodItemDAO.findFoodItemBySupplier_Id(supplierId);
 	}
 	
 	public List<FoodItem> getAllFoodItems(){
@@ -83,7 +96,7 @@ public class SupplierService {
 	}
 	
 	public Delivery getDelivery(long deliveryId) {
-		return deliveryDAO.findOne(deliveryId);
+		return deliveryDAO.getDelivery(deliveryId);
 	}
 
 	public void completeDelivery(long deliveryId, Date endDate, int distance) {

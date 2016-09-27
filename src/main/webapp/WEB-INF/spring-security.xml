@@ -7,10 +7,11 @@
 
 	<http auto-config="true" use-expressions="true">
 		<intercept-url pattern="/" access="permitAll" />
+		<intercept-url pattern="/home" access="permitAll" />
 		<intercept-url pattern="/login" access="permitAll" />
 		<intercept-url pattern="/signup" access="permitAll" />
-		<intercept-url pattern="/home" access="permitAll" />
-		<intercept-url pattern="/supplier*" access="hasRole('ROLE_SUPPLIER')" />
+		<intercept-url pattern="/resources/**" access="permitAll" />
+		<intercept-url pattern="/supplier/**" access="hasRole('ROLE_SUPPLIER')" />
 		<intercept-url pattern="/**" access="hasAnyRole('ROLE_ADMIN', 'ROLE_CONSUMER', 'ROLE_SUPPLIER')" />
 		
 		<form-login login-page="/login"
@@ -29,7 +30,7 @@
 		<authentication-provider>
 			<jdbc-user-service data-source-ref="dataSource"
 				users-by-username-query="select userName, password, isActive from user where userName=?"
-				authorities-by-username-query="select userName, user_role from user where userName =?  " />
+				authorities-by-username-query="select userName, userRole from user where userName =?  " />
 		</authentication-provider>
 	</authentication-manager>
 

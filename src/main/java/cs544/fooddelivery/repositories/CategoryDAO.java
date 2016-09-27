@@ -15,5 +15,5 @@ import cs544.fooddelivery.domain.Order;
 @Repository
 @Transactional(propagation=Propagation.REQUIRED)
 public interface CategoryDAO extends JpaRepository<Category, Long>  {
-	
+	public List<Category> findAll();
 }

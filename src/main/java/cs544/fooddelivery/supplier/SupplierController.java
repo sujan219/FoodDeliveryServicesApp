@@ -1,6 +1,13 @@
 package cs544.fooddelivery.supplier;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Date;
+import java.util.UUID;
+
+import javax.servlet.ServletContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,18 +17,26 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import cs544.fooddelivery.domain.Delivery;
 import cs544.fooddelivery.domain.FoodItem;
-import cs544.fooddelivery.domain.Status;
 import cs544.fooddelivery.domain.Supplier;
 import cs544.fooddelivery.domain.User;
+import cs544.fooddelivery.log.LogWriter;
 import cs544.fooddelivery.order.OrderService;
 import cs544.fooddelivery.usermgmt.UserMgmtService;
 
 @Controller
 public class SupplierController {
 	
+	@Autowired
+	private ServletContext servletContext;
+	
+	public void setServletContext(ServletContext servletContext) {
+		this.servletContext = servletContext;
+	}
+
 	@Autowired
 	SupplierService supplierService;
 	
@@ -31,6 +46,9 @@ public class SupplierController {
 	@Autowired
 	OrderService orderService;
 	
+	@Autowired
+	private LogWriter logWriter;
+	
 	@RequestMapping("/supplier")
 	public String displaySupplierDashboard(ModelMap model){
 		long supplierId = userService.getLoggedInUser().getId();
@@ -38,15 +56,29 @@ public class SupplierController {
 		return "supplier";
 	}
 	
+	//	public @ResponseBody String uploadFileHandler( @RequestParam("file") MultipartFile file) {
 	@RequestMapping(value="/supplier/manageFoodItem/add", method=RequestMethod.POST)
-	public String addFoodItem(@RequestParam double price,@RequestParam Long foodItemId,@RequestParam Long categoryId,@RequestParam String foodItemName,@RequestParam String foodItemDesc){
-		
+	public String addFoodItem(
+			@RequestParam("file") MultipartFile file,
+			@RequestParam String imgUrl,
+			@RequestParam double price,
+			@RequestParam Long foodItemId,
+			@RequestParam Long categoryId,
+			@RequestParam String foodItemName,
+			@RequestParam String foodItemDesc){
+
 		FoodItem fi=new FoodItem();
-		
+
 		if(foodItemId!=null){
 			fi.setId(foodItemId);
 		}
 		
+		if(file.getSize() > 0) {
+			fi.setImgUrl(this.saveImage(file));
+    	}else{
+    		fi.setImgUrl(imgUrl);
+    	}
+
 		fi.setCategory(this.supplierService.getCategoryWithCategoryId(categoryId));
 		fi.setName(foodItemName);
 		fi.setDescription(foodItemDesc);
@@ -57,6 +89,28 @@ public class SupplierController {
 		return "redirect:/supplier/manageFoodItem?";
 	}
 	
+	private String saveImage(MultipartFile image)  {
+		UUID idOne = UUID.randomUUID();
+    	String fileName = idOne.toString();
+
+    	String fullPathName = servletContext.getRealPath("/resources/images") + "/" + fileName;
+	    File file = new File(fullPathName);
+	    		
+	    FileOutputStream stream;
+		try {
+			stream = new FileOutputStream(file);
+		    stream.write(image.getBytes());
+		    stream.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    return "/resources/images/" + fileName;
+	}
+
 	@RequestMapping("/supplier/manageFoodItem/add")
 	public String foodItemAdd(ModelMap model){
 		model.addAttribute("categories", this.supplierService.getAllCategories());
@@ -78,13 +132,14 @@ public class SupplierController {
 	
 	@RequestMapping("/supplier/manageFoodItem")
 	public String manageFoodItem(ModelMap model){
-		model.addAttribute("foodItems", this.supplierService.getAllFoodItems());
+		model.addAttribute("foodItems", this.supplierService.getAllFoodItemBySupplier_Id(userService.getLoggedInUser().getId()));
 		return "manageFoodItem";
 	}
 	
 	@RequestMapping(value="/supplier/makeDelivery", method=RequestMethod.POST)
 	public String makeDelivery(@RequestParam(value="orderIds[]") String[] orderIds){
 		supplierService.saveDelivery(new Date(), orderIds);
+		logWriter.writeInfoLog("Delivery scheduled by supplier: " + userService.getLoggedInUser().getUserName());
 		return "redirect:/supplier";
 	}
 	
@@ -105,6 +160,7 @@ public class SupplierController {
 	@RequestMapping(value="/supplier/deliveries/{deliveryId}", method=RequestMethod.POST)
 	public String deliveryDetailUpdate(@PathVariable long deliveryId, @RequestParam(value="distance") int distance){
 		supplierService.completeDelivery(deliveryId, new Date(), distance);
+		logWriter.writeInfoLog("Delivery completed by supplier " + userService.getLoggedInUser().getUserName());
 		return "redirect:/supplier/deliveries";
 	}
 }
