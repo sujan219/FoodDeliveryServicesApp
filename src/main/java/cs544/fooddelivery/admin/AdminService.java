@@ -55,11 +55,6 @@ public class AdminService {
 		category.setName(name);
 		this.categoryDAO.saveAndFlush(category);
 	}
-	
-	
-	
 
-	
-	
 }
 
