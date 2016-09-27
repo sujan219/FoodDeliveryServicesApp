@@ -54,6 +54,24 @@ public class AdminController {
 		this.adminService.save(categoryObj);
 		return "redirect:/dashboard_admin";
 	}
+	
+
+	@RequestMapping(value="/editCategoryPage/{id}", method=RequestMethod.GET)	
+    public String editCategoryPage( @PathVariable("id")int id, Model model)
+	{
+		model.addAttribute("oldCategory",this.adminService.getCategory(id));
+        return "editCategory";
+    }
+	
+
+	@RequestMapping(value = "/updateCategory/{id}", method = RequestMethod.POST)
+	public String updateCategory( @PathVariable("id")int id, @RequestParam(value="categoryName") String name) {
+	
+		this.adminService.EditCategory(id, name);
+		
+	//	return "dashboard_admin";
+		return "redirect:/dashboard_admin";
+	}
 
 	
 }
