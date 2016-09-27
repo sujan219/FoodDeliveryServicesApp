@@ -49,23 +49,9 @@
 				<td>
 					<select name='categoryId'>
 			<c:forEach items="${categories}" var="category">
-				<option value="${category.id}"
-					${category.id == editItem.id ? 'selected="selected"' : ''}>
-					${category.name}</option>
+				<option value="${category.id}">${category.name}</option>
 			</c:forEach>
-		</select>
-				</td>
-			</tr>
-			<tr>
-			<td>
-					
-				</td>
-				<td>
-					<button class="button" type="submit">${editItem.id>0 ? 'Update' : 'Add'}</button>
-				</td>
-			</tr>
-		</table>
+		</select><br/>
 
+		<button type="submit">${editItem.id>0 ? 'Update' : 'Add'}</button>
 	</form>
-
-</div>

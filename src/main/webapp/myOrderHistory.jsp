@@ -4,7 +4,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-
 <table>
 	<tr>
 		<td><a href="<c:url value='/myaccount' />">My profile</a><br />
@@ -14,13 +13,13 @@
 				<a href="<c:url value='/orderhistory' />">Order History</a>
 				<br />
 			</sec:authorize></td>
-		<td><b><u>Arriving (On the way)</u></b> <br /> <br /> <c:forEach
-				items="${orders}" var="order" varStatus="orderCounter">
+		<td><b><u>Order History</u></b> <br /> <br /> 
+			<c:forEach items="${orders}" var="order" varStatus="orderCounter">
 				<div class="divBorder" id="rowOrder">
 					<div class="divTitle">
 						<b>Order#${order.id} <br/>
-						Order Date <fmt:formatDate type="both" value="${order.orderDate}" />
-						<span style="float:right">Total $${order.getTotalPrice() }</span></b>
+						Delivered</b> <fmt:formatDate type="both" value="${order.delivery.endDateTime}" />     
+						<b><span style="float:right"> Total $${order.getTotalPrice() }</span></b>
 					</div>
 					<table>
 						<tr>
@@ -42,8 +41,7 @@
 							</tr>
 						</c:forEach>
 					</table>
-				</div>
-				<br/>
+				</div><br/>
 			</c:forEach>
 			</td>
 

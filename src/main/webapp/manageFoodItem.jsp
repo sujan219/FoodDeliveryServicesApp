@@ -3,13 +3,10 @@
 
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
-<link rel="stylesheet" href="<c:url value="/resources/css/index.css" />">
-
-		<div id="divManageFoodItemForm">
-		<table id="tblManageFoodItem">
+		
+		<br/>
+		<table border=1>
 			<thead>
-			
 				<tr>
 					<th>Food Item Name</th>
 					<th>Image</th>
@@ -23,8 +20,8 @@
 				<c:forEach items="${foodItems}" var="foodItem">
 					<tr>
 						<td><c:out value="${foodItem.name}" /></td>
-						<td><img width="30px" height="30px" src="<c:url value="${foodItem.imgUrl}" />"/></td>
-						<td><c:out value="$ ${foodItem.price}" /></td>
+						<td><img width="80px" height="80px" src="<c:url value="${foodItem.imgUrl}" />"/></td>
+						<td><c:out value="${foodItem.price}" /></td>
 						<td><c:out value="${foodItem.description}" /></td>
 						<td><c:out value="${foodItem.category.name}" /></td>	
 						<td><a href="<c:out value="manageFoodItem/edit/${foodItem.id}"/>">Edit</a></td>
@@ -34,8 +31,6 @@
 			</tbody>
 
 		</table>
-		
-		</div>
 		
 		
 	

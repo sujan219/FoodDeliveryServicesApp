@@ -12,7 +12,14 @@
 			<c:if test="${rowCounter.count % 3 == 1}">
 				<tr>
 			</c:if>
-			<td><img class="no_image" src="<c:url value="/resources/img/no-image.png" />" /> <br />${row.name}
+			<td>
+				<c:if test="${empty row.imgUrl}">
+					<img class="no_image" src="<c:url value="/resources/img/no-image.png" />" /> 
+				</c:if>
+				<c:if test="${not empty row.imgUrl}">
+					<img width="100px" height="100px" src="<c:url value="${row.imgUrl}" />"/>
+				</c:if>
+				<br />${row.name}
 				$ ${row.price }<br />
 				
 				<sec:authorize access="!hasRole('ROLE_ADMIN') and !hasRole('ROLE_SUPPLIER')">
@@ -26,8 +33,7 @@
 				</form:form>
 				</sec:authorize>
 			</td>
-			<c:if
-				test="${rowCounter.count % 3 == 0||rowCounter.count == fn:length(values)}">
+			<c:if test="${rowCounter.count % 3 == 0||rowCounter.count == fn:length(values)}">
 				</tr>
 			</c:if>
 		</c:forEach>
