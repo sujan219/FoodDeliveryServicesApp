@@ -35,15 +35,15 @@
 		<c:choose>
 			<c:when test="${sessionScope.user != null}">
 				${sessionScope.user.userName} | 
-				<a href="<c:url value="/myCart" />">Cart(${fn:length(sessionScope.order.orderLines) })</a>
-				<sec:authorize
-					access="!hasRole('ROLE_ADMIN') and !hasRole('ROLE_SUPPLIER')">
-					| <a href="<c:url value='/user/update' />">My Account</a>
+				<sec:authorize access="!hasRole('ROLE_ADMIN') and !hasRole('ROLE_SUPPLIER')">
+					<a href="<c:url value="/myCart" />">Cart(${fn:length(sessionScope.order.orderLines) })</a>
 				</sec:authorize>
+					| <a href="<c:url value='/myaccount' />">My Account</a> |
+				
 				 | <a href="<c:url value='/logout' />">Logout</a>
 			</c:when>
 			<c:otherwise>
-				<a href="<c:url value='/login'/>">Login</a>
+				<a href="<c:url value='/login'/>">Login</a> | <a href="<c:url value='/signin'/>">SignIn</a>
 			</c:otherwise>
 		</c:choose>
 	</span>

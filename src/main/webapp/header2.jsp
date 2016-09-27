@@ -11,9 +11,8 @@
 		<c:choose>
 			<c:when test="${sessionScope.user != null}">
 				${sessionScope.user.userName} 
-				<sec:authorize access="!hasRole('ROLE_ADMIN') and !hasRole('ROLE_SUPPLIER')">
-					| <a href="<c:url value='/user/update' />">My Account</a>
-				</sec:authorize>
+					| <a href="<c:url value='/myaccount' />">My Account</a>
+				
 				 | <a href="<c:url value='/logout' />" >Logout</a>
 			</c:when>
 			<c:otherwise>

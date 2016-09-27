@@ -29,11 +29,11 @@
 			<c:choose>
 				<c:when test="${isEdit==null}">
 					<c:set var="button" value="Signup"></c:set>
-					Signup new user
+					Signup New User
 				</c:when>
 				<c:otherwise>
 					<c:set var="button" value="Update"></c:set>
-					Edit user details
+					Edit My Profile
 				</c:otherwise>
 			</c:choose>
 		</h1>
