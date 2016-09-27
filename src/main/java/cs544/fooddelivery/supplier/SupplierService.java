@@ -52,6 +52,10 @@ public class SupplierService {
 		return userDAO.findAllSuppliers();
 	}
 	
+	public List<FoodItem> getAllFoodItemBySupplier_Id(long supplierId){
+		return this.foodItemDAO.findFoodItemBySupplier_Id(supplierId);
+	}
+	
 	public List<FoodItem> getAllFoodItems(){
 		return this.foodItemDAO.findAll();
 	}

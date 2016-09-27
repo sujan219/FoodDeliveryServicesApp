@@ -4,7 +4,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 		
-		<br/>
+<c:if test="${not empty foodItems}">
 		<table border=1>
 			<thead>
 				<tr>
@@ -31,6 +31,8 @@
 			</tbody>
 
 		</table>
-		
-		
+</c:if>		
+<c:if test="${empty foodItems}">
+	<b>No Food item added</b>
+</c:if>		
 	

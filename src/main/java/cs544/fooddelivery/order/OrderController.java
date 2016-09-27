@@ -16,11 +16,7 @@ public class OrderController {
 	
 	@RequestMapping("/order/{orderId}")
 	public String orderDetail(@PathVariable Long orderId,ModelMap model){
-		
-		System.out.println("here in order detail");
-		
 		model.addAttribute("order", this.orderService.getOrder(orderId));
-		
 		return "orderDetail";
 	}
 }
