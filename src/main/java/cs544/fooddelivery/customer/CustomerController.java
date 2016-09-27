@@ -18,6 +18,7 @@ import cs544.fooddelivery.domain.Customer;
 import cs544.fooddelivery.domain.FoodItem;
 import cs544.fooddelivery.domain.Order;
 import cs544.fooddelivery.domain.OrderLine;
+import cs544.fooddelivery.domain.Status;
 import cs544.fooddelivery.domain.User;
 import cs544.fooddelivery.order.OrderService;
 import cs544.fooddelivery.supplier.SupplierService;
@@ -157,7 +158,13 @@ public class CustomerController {
 	public String myorders(Model model) {	
 		
 		User user = userMgmtService.getLoggedInUser();
-		List<Order> orders = orderService.getAllPendingOrderOfCustomer(user.getId());
+		List<Order> tempOrders = orderService.getAllPendingOrderOfCustomer(user.getId());
+		List<Order> orders = new ArrayList<Order>();	
+		for(Order o:tempOrders){
+			if(o.getDelivery()==null || o.getDelivery().getStatus()==Status.PENDING){
+				orders.add(o);
+			}
+		}
 		model.addAttribute("orders", orders);
 		return "myOrder";
 	}
