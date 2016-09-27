@@ -8,6 +8,23 @@
 		<put-attribute name="body" value="" />
 		<put-attribute name="footer" value="/footer.jsp" />
 	</definition>
+	<!-- <definition name="base.myaccount" template="/myAccount.jsp" >	
+		<put-attribute name="header" value="/header.jsp" />		
+		<put-attribute name="myaccountbody" value="" />
+		<put-attribute name="footer" value="/footer.jsp" />
+	</definition> -->
+	<definition name="myAccount" extends="base.definition">			
+		<put-attribute name="body" value="/myAccount.jsp" />
+	</definition>
+	<definition name="myOrder" extends="base.definition">			
+		<put-attribute name="body" value="/myOrder.jsp" />
+	</definition>
+	<definition name="incompatibleItem" extends="base.definition">			
+		<put-attribute name="body" value="/incompatibleItem.jsp" />
+	</definition>
+	<definition name="editProfile" extends="base.definition">			
+		<put-attribute name="body" value="/editProfile.jsp" />
+	</definition>
 	<definition name="home" extends="base.definition">
 		<put-attribute name="body" value="/home.jsp" />
 	</definition>

@@ -1,6 +1,7 @@
 package cs544.fooddelivery.customer;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,25 +17,31 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import cs544.fooddelivery.domain.Customer;
 import cs544.fooddelivery.domain.FoodItem;
 import cs544.fooddelivery.domain.Order;
 import cs544.fooddelivery.domain.OrderLine;
 import cs544.fooddelivery.domain.User;
+import cs544.fooddelivery.order.OrderService;
 import cs544.fooddelivery.supplier.SupplierService;
 import cs544.fooddelivery.usermgmt.UserMgmtService;
+import cs544.fooddelivery.usermgmt.UserProxy;
 
 @Controller
-@SessionAttributes({ "cart" })
+@SessionAttributes({"cart"})
 public class CustomerController {
 
 	@Autowired
 	private UserMgmtService userMgmtService;
-
+	
 	@Autowired
 	private SupplierService supplierService;
-
+	
 	@Autowired
 	private ICustomerService customerService;
+	
+	@Autowired
+	private OrderService orderService;
 
 	@RequestMapping(value = { "/home" }, method = { RequestMethod.GET, RequestMethod.POST })
 	public String main(Model model, SearchObject obj) {
@@ -85,42 +92,76 @@ public class CustomerController {
 		model.addAttribute("searchObj", obj);
 		return "home";
 	}
-
-	@RequestMapping(value = "/addToCart", method = RequestMethod.POST)
-	public String addToCart(@ModelAttribute("item") FoodItem item, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-
-		Order order = customerService.addToCart(item, session);
-		session.setAttribute("order", order);
-
-		return "redirect:home";
+	@RequestMapping(value = { "/myaccount" })
+	public String myaccount(Model model) {
+		User customer = userMgmtService.getLoggedInUser();
+		model.addAttribute("user", customer);
+		return "myAccount";
 	}
-
+	
+	@RequestMapping(value="/addToCart", method=RequestMethod.POST)
+	public String addToCart(@ModelAttribute("item") FoodItem item, HttpServletRequest request){
+			HttpSession session = request.getSession();
+			try{
+				Order order = customerService.addToCart(item,session);
+				session.setAttribute("order", order);				
+				
+				return "redirect:home";
+			}catch(IllegalArgumentException e){
+				return "incompatibleItem";
+			}
+			
+	}
 	@RequestMapping(value = { "/myCart" })
 	public String myCart(Model model) {
 		User user = userMgmtService.getLoggedInUser();
 		model.addAttribute("item", new OrderLine());
-		model.addAttribute("user", user);
+		model.addAttribute("user", new UserProxy((Customer) user));
 		return "myCart";
 	}
-
-	@RequestMapping(value = "/updateCart", method = RequestMethod.POST)
-	public String updateCart(@ModelAttribute("item") OrderLine orderLine, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-
-		Order order = customerService.updateCart(orderLine, session);
-		session.setAttribute("order", order);
-
-		return "redirect:myCart";
+	@RequestMapping(value="/updateCart", method=RequestMethod.POST)
+	public String updateCart(@ModelAttribute("item") OrderLine orderLine, HttpServletRequest request){
+			HttpSession session = request.getSession();
+			
+			Order order = customerService.updateCart(orderLine, session);
+			session.setAttribute("order", order);	
+			
+			return "redirect:myCart";
 	}
-
-	@RequestMapping(value = "/removeOrderLine", method = RequestMethod.POST)
-	public String removeOrderLine(@ModelAttribute("item") OrderLine orderLine, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-
-		Order order = customerService.removeFromOrder(orderLine, session);
-		session.setAttribute("order", order);
-
-		return "redirect:myCart";
+	
+	@RequestMapping(value="/removeOrderLine", method=RequestMethod.POST)
+	public String removeOrderLine(@ModelAttribute("item") OrderLine orderLine, HttpServletRequest request){
+			HttpSession session = request.getSession();
+			
+			Order order = customerService.removeFromOrder(orderLine, session);
+			session.setAttribute("order", order);	
+			
+			return "redirect:myCart";
+	}
+	
+	@RequestMapping(value="/placeOrder", method=RequestMethod.POST)
+	public String placeOrder(@ModelAttribute("user") UserProxy user, HttpServletRequest request){
+		
+			HttpSession session = request.getSession();
+			
+			Order cart = (Order) session.getAttribute("order");
+			cart.setOrderDate(new Date());
+			User domainUser = user.getDomainUser();
+			cart.setCustomer((Customer)domainUser);
+			
+			orderService.save(cart);
+			
+			session.setAttribute("order", null);	
+			
+			return "redirect:home";
+	}
+	
+	@RequestMapping(value = { "/myorder" })
+	public String myorders(Model model) {	
+		
+		User user = userMgmtService.getLoggedInUser();
+		List<Order> orders = orderService.getAllPendingOrderOfCustomer(user.getId());
+		model.addAttribute("orders", orders);
+		return "myOrder";
 	}
 }

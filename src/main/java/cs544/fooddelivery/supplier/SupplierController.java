@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import cs544.fooddelivery.domain.Category;
 import cs544.fooddelivery.domain.Delivery;
 import cs544.fooddelivery.domain.FoodItem;
+import cs544.fooddelivery.domain.Status;
 import cs544.fooddelivery.domain.Supplier;
 import cs544.fooddelivery.domain.User;
 import cs544.fooddelivery.order.OrderService;
@@ -41,13 +42,13 @@ public class SupplierController {
 
 	@Autowired
 	SupplierService supplierService;
-
+	
 	@Autowired
 	UserMgmtService userService;
-
+	
 	@Autowired
 	OrderService orderService;
-
+	
 	@RequestMapping("/supplier")
 	public String displaySupplierDashboard(ModelMap model){
 		long supplierId = userService.getLoggedInUser().getId();
@@ -112,46 +113,46 @@ public class SupplierController {
 		model.addAttribute("categories", this.supplierService.getAllCategories());
 		return "addFoodItem";
 	}
-
+	
 	@RequestMapping("/supplier/manageFoodItem/edit/{foodItemId}")
 	public String foodITemEdit(ModelMap model,@PathVariable("foodItemId") Long foodItemId){
 		model.addAttribute("categories", this.supplierService.getAllCategories());
 		model.addAttribute("editItem", this.supplierService.getFoodItemForId(foodItemId));
 		return "addFoodItem";
 	}
-
+	
 	@RequestMapping("/supplier/manageFoodItem/delete/{foodItemId}")
 	public String foodItemDelete(@PathVariable("foodItemId") Long foodItemId){
 		this.supplierService.deleteFoodItemForId(foodItemId);
 		return "redirect:/supplier/manageFoodItem";
 	}
-
+	
 	@RequestMapping("/supplier/manageFoodItem")
 	public String manageFoodItem(ModelMap model){
 		model.addAttribute("foodItems", this.supplierService.getAllFoodItems());
 		return "manageFoodItem";
 	}
-
+	
 	@RequestMapping(value="/supplier/makeDelivery", method=RequestMethod.POST)
 	public String makeDelivery(@RequestParam(value="orderIds[]") String[] orderIds){
 		supplierService.saveDelivery(new Date(), orderIds);
 		return "redirect:/supplier";
 	}
-
+	
 	@RequestMapping(value="/supplier/deliveries")
 	public String deliveryList(Model model){
 		User loggedInUser = userService.getLoggedInUser();
 		model.addAttribute("deliveries", supplierService.getAllDeliveries(loggedInUser.getId()));
 		return "deliverylist";
 	}
-
+	
 	@RequestMapping(value="/supplier/deliveries/{deliveryId}")
 	public String deliveryDetail(@PathVariable long deliveryId, Model model){
 		Delivery delivery = supplierService.getDelivery(deliveryId);
 		model.addAttribute("delivery", delivery);
 		return "deliverydetail";
 	}
-
+	
 	@RequestMapping(value="/supplier/deliveries/{deliveryId}", method=RequestMethod.POST)
 	public String deliveryDetailUpdate(@PathVariable long deliveryId, @RequestParam(value="distance") int distance){
 		supplierService.completeDelivery(deliveryId, new Date(), distance);

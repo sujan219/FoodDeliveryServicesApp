@@ -29,4 +29,12 @@ public class OrderService {
 	public Order getOrder(Long orderId){
 		return this.orderDAO.findOne(orderId);
 	}	
+	
+	public void save(Order order){
+		orderDAO.save(order);
+	}
+	
+	public List<Order> getAllPendingOrderOfCustomer(Long customerId){
+		return orderDAO.findAllPendingOrdersForCustomer(customerId);
+	}
 }
