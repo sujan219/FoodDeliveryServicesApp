@@ -55,7 +55,7 @@ public class SupplierController {
 	
 	@RequestMapping("/supplier")
 	public String displaySupplierDashboard(ModelMap model){
-		Long supplierId = userService.getLoggedInUser().getId();
+		long supplierId = userService.getLoggedInUser().getId();
 		model.addAttribute("orders", orderService.getAllRequestedOrderForSupplierId(supplierId));
 		return "supplier";
 	}
@@ -133,7 +133,7 @@ public class SupplierController {
 	
 	@RequestMapping("/supplier/manageFoodItem")
 	public String manageFoodItem(ModelMap model){
-		model.addAttribute("foodItems", this.supplierService.getAllFoodItems());
+		model.addAttribute("foodItems", this.supplierService.getAllFoodItemBySupplier_Id(userService.getLoggedInUser().getId()));
 		return "manageFoodItem";
 	}
 	

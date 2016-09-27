@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="<c:url value="/resources/css/index.css" />"> 
 <h2>Dashboard</h2>
 
+<c:if test="${not empty orders}">
 <form id="supplierForm" action="supplier/makeDelivery" method="post">
 	<button class="button" type="submit">Make Delivery</button>
 	<table border=1>
@@ -17,18 +18,21 @@
 				<td><input class="checkbox" type="checkbox" name="orderIds[]" value="${order.id}" /></td>
 				<td style="background-color:AliceBlue;">
 					<b><a href="<c:url value='/order/${order.id }' />">OrderId#${order.id} ${order.customer.fullName}</a></b>
+<<<<<<< HEAD
 					
 		
 		<ul style="list-style:none">
 			<li>
 				<div id="rowOrder">
+=======
+					<ul>
+>>>>>>> 58e053d36d3dc3dd2cd043d2f31fe1467682344c
 					<c:forEach items="${order.orderLines}" var="orderline">
-						<div id="viewFoodItem">
-						<img style="padding=10px;" width="30px" height="30px" src="<c:url value="${orderline.foodItem.imgUrl}" />"/>
-							<span> ${orderline.foodItem.name} - ${orderline.quantity} * $ ${orderline.foodItem.price}</span>
-							
-						</div>
+						
+							<li>${orderline.foodItem.name} (${orderline.quantity} * $${orderline.foodItem.price})</li>
+						
 					</c:forEach>
+<<<<<<< HEAD
 					
 					<%-- <div>Ordered by ${order.customer.fullName}</div>
 					<div>From: ${order.customer.address}</div> --%>
@@ -39,9 +43,21 @@
 		<div style="margin-top:10px;"><b>Total Price - $ ${order.getTotalPrice()}</b></div>
 		
 
+=======
+					</ul>
+					<div style="float:right">
+						Total : $${order.getTotalPrice()}						
+					</div>
+				</td>
+			</tr>
+>>>>>>> 58e053d36d3dc3dd2cd043d2f31fe1467682344c
 		</c:forEach>
 	</table>
 </form>
+</c:if>
+<c:if test="${empty orders}">
+	<b>No Order Placed</b>
+</c:if>
 <script language="JavaScript">
 $(document).ready(function() {
 	$("#selecctall").change(function () {
