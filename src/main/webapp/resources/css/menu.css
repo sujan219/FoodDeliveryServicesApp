@@ -1,5 +1,12 @@
 @CHARSET "ISO-8859-1";
-
+.divBorder {
+    border: 1px solid red;
+    border-radius: 5px;
+    width:400px;
+}
+.divTitle{
+	background: rgba(173, 33, 64, 0.24);
+}
 div{
 	overflow:hidden;
 }

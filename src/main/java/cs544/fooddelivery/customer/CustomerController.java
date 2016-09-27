@@ -3,8 +3,6 @@ package cs544.fooddelivery.customer;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -14,13 +12,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import cs544.fooddelivery.domain.Customer;
 import cs544.fooddelivery.domain.FoodItem;
 import cs544.fooddelivery.domain.Order;
 import cs544.fooddelivery.domain.OrderLine;
+import cs544.fooddelivery.domain.Status;
 import cs544.fooddelivery.domain.User;
 import cs544.fooddelivery.order.OrderService;
 import cs544.fooddelivery.supplier.SupplierService;
@@ -160,8 +158,22 @@ public class CustomerController {
 	public String myorders(Model model) {	
 		
 		User user = userMgmtService.getLoggedInUser();
-		List<Order> orders = orderService.getAllPendingOrderOfCustomer(user.getId());
+		List<Order> tempOrders = orderService.getAllPendingOrderOfCustomer(user.getId());
+		List<Order> orders = new ArrayList<Order>();	
+		for(Order o:tempOrders){
+			if(o.getDelivery()==null || o.getDelivery().getStatus()==Status.PENDING){
+				orders.add(o);
+			}
+		}
 		model.addAttribute("orders", orders);
 		return "myOrder";
+	}
+	@RequestMapping(value = { "/orderhistory" })
+	public String orderhistory(Model model) {	
+		
+		User user = userMgmtService.getLoggedInUser();
+		List<Order> orders = orderService.getAllDeliveredOrderOfCustomer(user.getId());
+		model.addAttribute("orders", orders);
+		return "myOrderHistory";
 	}
 }

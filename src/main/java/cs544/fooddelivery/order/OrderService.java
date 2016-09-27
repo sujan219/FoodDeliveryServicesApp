@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import cs544.fooddelivery.domain.Order;
-import cs544.fooddelivery.domain.OrderLine;
 import cs544.fooddelivery.repositories.OrderDAO;
 
 @Service
@@ -36,5 +35,8 @@ public class OrderService {
 	
 	public List<Order> getAllPendingOrderOfCustomer(Long customerId){
 		return orderDAO.findAllPendingOrdersForCustomer(customerId);
+	}
+	public List<Order> getAllDeliveredOrderOfCustomer(Long customerId){
+		return orderDAO.findAllDeliveredOrdersForCustomer(customerId);
 	}
 }

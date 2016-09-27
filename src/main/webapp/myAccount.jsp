@@ -6,7 +6,7 @@
 
 <table>
 	<tr>
-		<td><a href="<c:url value='/myprofile' />">My profile</a><br /> 
+		<td><a href="<c:url value='/myaccount' />">My profile</a><br /> 
 			<sec:authorize access="hasRole('ROLE_CONSUMER')">
 				<a href="<c:url value='/myorder' />">Orders</a><br /> 
 				<a href="<c:url value='/orderhistory' />">Order History</a><br />

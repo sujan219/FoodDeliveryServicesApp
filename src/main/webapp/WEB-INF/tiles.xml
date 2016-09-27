@@ -19,6 +19,9 @@
 	<definition name="myOrder" extends="base.definition">			
 		<put-attribute name="body" value="/myOrder.jsp" />
 	</definition>
+	<definition name="myOrderHistory" extends="base.definition">			
+		<put-attribute name="body" value="/myOrderHistory.jsp" />
+	</definition>
 	<definition name="incompatibleItem" extends="base.definition">			
 		<put-attribute name="body" value="/incompatibleItem.jsp" />
 	</definition>
