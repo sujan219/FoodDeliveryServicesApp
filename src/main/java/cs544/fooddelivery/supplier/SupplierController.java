@@ -60,6 +60,7 @@ public class SupplierController {
 	@RequestMapping(value="/supplier/manageFoodItem/add", method=RequestMethod.POST)
 	public String addFoodItem(
 			@RequestParam("file") MultipartFile file,
+			@RequestParam String imgUrl,
 			@RequestParam double price,
 			@RequestParam Long foodItemId,
 			@RequestParam Long categoryId,
@@ -74,6 +75,8 @@ public class SupplierController {
 		
 		if(file.getSize() > 0) {
 			fi.setImgUrl(this.saveImage(file));
+    	}else{
+    		fi.setImgUrl(imgUrl);
     	}
 
 		fi.setCategory(this.supplierService.getCategoryWithCategoryId(categoryId));
