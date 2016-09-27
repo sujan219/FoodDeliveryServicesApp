@@ -51,7 +51,7 @@ public class SupplierController {
 	
 	@RequestMapping("/supplier")
 	public String displaySupplierDashboard(ModelMap model){
-		long supplierId = userService.getLoggedInUser().getId();
+		Long supplierId = userService.getLoggedInUser().getId();
 		model.addAttribute("orders", orderService.getAllRequestedOrderForSupplierId(supplierId));
 		return "supplier";
 	}

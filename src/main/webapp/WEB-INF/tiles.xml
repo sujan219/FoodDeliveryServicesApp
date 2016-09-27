@@ -47,6 +47,12 @@
 		<put-attribute name="header" value="/header2.jsp" />	
 		<put-attribute name="body" value="/addFoodItem.jsp" />
 	</definition>
+	
+	<definition name="orderDetail" extends="base.definition">
+		<put-attribute name="header" value="/header2.jsp" />	
+		<put-attribute name="body" value="/orderDetail.jsp" />
+	</definition>
+	
 	<definition name="manageFoodItem" extends="base.definition">
 		<put-attribute name="header" value="/header2.jsp" />	
 		<put-attribute name="body" value="/manageFoodItem.jsp" />

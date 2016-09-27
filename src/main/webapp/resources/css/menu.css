@@ -100,3 +100,7 @@ input#remove {
 {
 	display:block
 }
+
+#supplierForm input{
+	width:30px;
+}
