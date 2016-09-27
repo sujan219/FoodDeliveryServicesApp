@@ -18,7 +18,7 @@
 				<td style="background-color:AliceBlue;">
 					<b><a href="<c:url value='/order/${order.id }' />">OrderId#${order.id} ${order.customer.fullName}</a></b>
 					
-		<c:forEach items="${order.orderLines}" var="orderline">
+		
 		<ul style="list-style:none">
 			<li>
 				<div id="rowOrder">
@@ -38,7 +38,6 @@
 		
 		<div style="margin-top:10px;"><b>Total Price - $ ${order.getTotalPrice()}</b></div>
 		
-		</c:forEach>
 
 		</c:forEach>
 	</table>

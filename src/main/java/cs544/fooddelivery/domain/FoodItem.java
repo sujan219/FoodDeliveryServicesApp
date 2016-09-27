@@ -4,17 +4,52 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.format.annotation.NumberFormat;
+import org.springframework.format.annotation.NumberFormat.Style;
+import org.springframework.web.multipart.MultipartFile;
 
 @Entity
 public class FoodItem {
 	@Id
 	@GeneratedValue
 	private Long id;
+	
+	@NotEmpty(message="Please write some name of food")
 	private String name;
+	
+	@NotEmpty(message="Please write some description of food")
 	private String description;
-	private double price;
+	
+	private Double price;
+	
 	private String imgUrl;
 	
+	@Transient
+	private MultipartFile file;
+	
+	@Transient
+	private Long categoryId;
+	
+	public MultipartFile getFile() {
+		return file;
+	}
+
+	public void setFile(MultipartFile file) {
+		this.file = file;
+	}
+
+	public Long getCategoryId() {
+		return categoryId;
+	}
+
+	public void setCategoryId(Long categoryId) {
+		this.categoryId = categoryId;
+	}
+
 	public String getImgUrl() {
 		return imgUrl;
 	}
@@ -23,11 +58,11 @@ public class FoodItem {
 		this.imgUrl = imgUrl;
 	}
 
-	public double getPrice() {
+	public Double getPrice() {
 		return price;
 	}
 
-	public void setPrice(double price) {
+	public void setPrice(Double price) {
 		this.price = price;
 	}
 
