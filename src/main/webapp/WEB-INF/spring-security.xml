@@ -10,6 +10,7 @@
 		<intercept-url pattern="/home" access="permitAll" />
 		<intercept-url pattern="/login" access="permitAll" />
 		<intercept-url pattern="/signup" access="permitAll" />
+		<intercept-url pattern="/resources/**" access="permitAll" />
 		<intercept-url pattern="/supplier*" access="hasRole('ROLE_SUPPLIER')" />
 		<intercept-url pattern="/**" access="hasAnyRole('ROLE_ADMIN', 'ROLE_CONSUMER', 'ROLE_SUPPLIER')" />
 		

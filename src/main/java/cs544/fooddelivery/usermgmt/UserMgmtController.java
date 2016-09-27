@@ -32,12 +32,6 @@ public class UserMgmtController {
 	@Autowired
 	private UserMgmtService userMgmtService;
 	
-	@RequestMapping("/")
-	public String main(){
-		System.out.println(".///////////");
-		return "/home";
-	}
-	
 	@RequestMapping("/login")
 	public String login(
 		@RequestParam(value = "error", required = false) String error,
@@ -54,7 +48,7 @@ public class UserMgmtController {
 		return "login";
 	}
 	
-	@RequestMapping(value={"/loginSuccess"})
+	@RequestMapping(value={"/loginSuccess", "/"})
 	public String loginSuccess(HttpServletRequest request){
 		String userName = SecurityContextHolder.getContext().getAuthentication().getName();
 		Set<String> roles = AuthorityUtils.authorityListToSet(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
