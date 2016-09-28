@@ -34,6 +34,10 @@ input {
 	width:200px;
 }
 
+#txtMiles{
+	witdh:20px;
+}
+
 #foodItemForm #inputChoose{
 	border: 0 solid LightGray;
 }

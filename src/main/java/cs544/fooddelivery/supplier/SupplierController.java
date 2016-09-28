@@ -14,11 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-<<<<<<< HEAD
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-=======
->>>>>>> 0c36602d9100d2ec59edfa68cf6684edbea457ac
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
