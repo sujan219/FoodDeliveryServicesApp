@@ -2,6 +2,7 @@ package cs544.fooddelivery.aspect;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -10,6 +11,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.util.StopWatch;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import cs544.fooddelivery.domain.User;
 import cs544.fooddelivery.log.LogWriter;
 
 @Aspect
@@ -33,5 +35,11 @@ public class DatabaseAspect {
 	@Before("execution(* cs544.fooddelivery.supplier.SupplierService.*(..))")
 	public void beforeAnyMethodSupplier(JoinPoint jp){
 		System.out.println("before supplier controller method executed:"+jp.getSignature());
+	}
+	
+	@After("execution(* cs544.fooddelivery.customer.CustomerController.placeOrder(..))")
+	public void afterPlaceaorder(JoinPoint jp){
+		User user = (User) jp.getArgs()[0];
+		System.out.println("Email send to "+user.getFullName()+" "+user.getEmail());
 	}
 }

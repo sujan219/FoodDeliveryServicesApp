@@ -17,7 +17,7 @@
 	<br />
 	<br />
 </c:if>
-
+	
 
 <b>Start date: <fmt:formatDate type="both"
 		value="${delivery.startDateTime}" /> <c:if

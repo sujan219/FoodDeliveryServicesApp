@@ -71,8 +71,6 @@
 		<put-attribute name="header" value="/header2.jsp" />	
 		<put-attribute name="body" value="/deliverydetail.jsp" />
 	</definition>
-	
-	
 	<definition name="dashboard_admin" extends="base.definition">
 		<put-attribute name="header" value="/header2.jsp" />	
 		<put-attribute name="body" value="/dashboard_admin.jsp" />
@@ -93,5 +91,4 @@
 		<put-attribute name="header" value="/header2.jsp" />	
 		<put-attribute name="body" value="/orderReport.jsp" />
 	</definition>
-	
 </tiles-definitions>
