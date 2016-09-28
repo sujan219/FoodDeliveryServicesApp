@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.ServletContext;
@@ -13,14 +14,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import cs544.fooddelivery.domain.Category;
 import cs544.fooddelivery.domain.Delivery;
 import cs544.fooddelivery.domain.FoodItem;
+import cs544.fooddelivery.domain.Status;
 import cs544.fooddelivery.domain.Supplier;
 import cs544.fooddelivery.domain.User;
 import cs544.fooddelivery.log.LogWriter;
@@ -57,32 +63,36 @@ public class SupplierController {
 	}
 	
 	//	public @ResponseBody String uploadFileHandler( @RequestParam("file") MultipartFile file) {
+	
+//	public String signup(@ModelAttribute("user") @Validated UserProxy user, BindingResult result, RedirectAttributes attrs){
+	
+	@RequestMapping("/supplier/manageFoodItem/add")
+	public String foodItemAdd(ModelMap model){
+		model.addAttribute("categories", this.supplierService.getAllCategories());
+		model.addAttribute("foodItem",new FoodItem());
+		
+//		logWriter.wr
+		
+		return "addFoodItem";
+	}
+	
 	@RequestMapping(value="/supplier/manageFoodItem/add", method=RequestMethod.POST)
-	public String addFoodItem(
-			@RequestParam("file") MultipartFile file,
-			@RequestParam String imgUrl,
-			@RequestParam double price,
-			@RequestParam Long foodItemId,
-			@RequestParam Long categoryId,
-			@RequestParam String foodItemName,
-			@RequestParam String foodItemDesc){
+	public String addFoodItem(@ModelAttribute("foodItem") @Validated FoodItem fi, BindingResult br,ModelMap model){
 
-		FoodItem fi=new FoodItem();
-
-		if(foodItemId!=null){
-			fi.setId(foodItemId);
+		if(br.hasErrors()){
+			model.addAttribute("categories", this.supplierService.getAllCategories());
+//			model.addAttribute("foodItem",new FoodItem());
+			return "addFoodItem";
 		}
 		
-		if(file.getSize() > 0) {
-			fi.setImgUrl(this.saveImage(file));
+		if(fi.getFile().getSize() > 0) {
+			fi.setImgUrl(this.saveImage(fi.getFile()));
     	}else{
-    		fi.setImgUrl(imgUrl);
+    		fi.setImgUrl(fi.getImgUrl());
     	}
 
-		fi.setCategory(this.supplierService.getCategoryWithCategoryId(categoryId));
-		fi.setName(foodItemName);
-		fi.setDescription(foodItemDesc);
-		fi.setPrice(price);
+		fi.setCategory(this.supplierService.getCategoryWithCategoryId(fi.getCategoryId()));
+		
 		fi.setSupplier((Supplier)this.userService.getLoggedInUser());
 		this.supplierService.saveFoodItem(fi);
 
@@ -111,11 +121,7 @@ public class SupplierController {
 	    return "/resources/images/" + fileName;
 	}
 
-	@RequestMapping("/supplier/manageFoodItem/add")
-	public String foodItemAdd(ModelMap model){
-		model.addAttribute("categories", this.supplierService.getAllCategories());
-		return "addFoodItem";
-	}
+	
 	
 	@RequestMapping("/supplier/manageFoodItem/edit/{foodItemId}")
 	public String foodITemEdit(ModelMap model,@PathVariable("foodItemId") Long foodItemId){

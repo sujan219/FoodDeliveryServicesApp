@@ -16,6 +16,9 @@
 	<definition name="myAccount" extends="base.definition">			
 		<put-attribute name="body" value="/myAccount.jsp" />
 	</definition>
+	<definition name="Error" extends="base.definition">			
+		<put-attribute name="body" value="/Error.jsp" />
+	</definition>
 	<definition name="myOrder" extends="base.definition">			
 		<put-attribute name="body" value="/myOrder.jsp" />
 	</definition>

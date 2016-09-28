@@ -12,7 +12,6 @@
 <body>
 	<%@ include file="header.jsp" %>
 	<center>
-		<%@ include file="viewCustomerProfile.jsp" %>
 	</center>
 </body>
 </html>
