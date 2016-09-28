@@ -18,21 +18,16 @@
 				<td><input class="checkbox" type="checkbox" name="orderIds[]" value="${order.id}" /></td>
 				<td style="background-color:AliceBlue;">
 					<b><a href="<c:url value='/order/${order.id }' />">OrderId#${order.id} ${order.customer.fullName}</a></b>
-<<<<<<< HEAD
-					
-		
+
 		<ul style="list-style:none">
 			<li>
 				<div id="rowOrder">
-=======
 					<ul>
->>>>>>> 58e053d36d3dc3dd2cd043d2f31fe1467682344c
 					<c:forEach items="${order.orderLines}" var="orderline">
 						
 							<li>${orderline.foodItem.name} (${orderline.quantity} * $${orderline.foodItem.price})</li>
 						
 					</c:forEach>
-<<<<<<< HEAD
 					
 					<%-- <div>Ordered by ${order.customer.fullName}</div>
 					<div>From: ${order.customer.address}</div> --%>
@@ -41,16 +36,12 @@
 		</ul>
 		
 		<div style="margin-top:10px;"><b>Total Price - $ ${order.getTotalPrice()}</b></div>
-		
-
-=======
 					</ul>
 					<div style="float:right">
 						Total : $${order.getTotalPrice()}						
 					</div>
 				</td>
 			</tr>
->>>>>>> 58e053d36d3dc3dd2cd043d2f31fe1467682344c
 		</c:forEach>
 	</table>
 </form>

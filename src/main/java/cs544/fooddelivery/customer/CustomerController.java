@@ -3,6 +3,7 @@ package cs544.fooddelivery.customer;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -20,6 +21,7 @@ import cs544.fooddelivery.domain.Order;
 import cs544.fooddelivery.domain.OrderLine;
 import cs544.fooddelivery.domain.Status;
 import cs544.fooddelivery.domain.User;
+import cs544.fooddelivery.log.LogWriter;
 import cs544.fooddelivery.order.OrderService;
 import cs544.fooddelivery.supplier.SupplierService;
 import cs544.fooddelivery.usermgmt.UserMgmtService;
@@ -40,6 +42,9 @@ public class CustomerController {
 	
 	@Autowired
 	private OrderService orderService;
+	
+	@Autowired
+	private LogWriter logWriter;
 
 	@RequestMapping(value = { "/home" }, method = { RequestMethod.GET, RequestMethod.POST })
 	public String main(Model model, SearchObject obj) {
@@ -150,7 +155,7 @@ public class CustomerController {
 			orderService.save(cart);
 			
 			session.setAttribute("order", null);	
-			
+			logWriter.writeInfoLog("An order of id: " + cart.getId() + " has been placed for " + domainUser.getUserName());
 			return "redirect:home";
 	}
 	

@@ -3,6 +3,10 @@
 
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
+<link rel="stylesheet" href="<c:url value="/resources/css/index.css" />">
+		
+<div id="tblManageFoodItem">
 		
 <c:if test="${not empty foodItems}">
 		<table border=1>
@@ -20,7 +24,7 @@
 				<c:forEach items="${foodItems}" var="foodItem">
 					<tr>
 						<td><c:out value="${foodItem.name}" /></td>
-						<td><img width="80px" height="80px" src="<c:url value="${foodItem.imgUrl}" />"/></td>
+						<td><img width="50px" height="50px" src="<c:url value="${foodItem.imgUrl}" />"/></td>
 						<td><c:out value="${foodItem.price}" /></td>
 						<td><c:out value="${foodItem.description}" /></td>
 						<td><c:out value="${foodItem.category.name}" /></td>	
@@ -31,7 +35,10 @@
 			</tbody>
 
 		</table>
-</c:if>		
+</c:if>
+
+</div>
+		
 <c:if test="${empty foodItems}">
 	<b>No Food item added</b>
 </c:if>		

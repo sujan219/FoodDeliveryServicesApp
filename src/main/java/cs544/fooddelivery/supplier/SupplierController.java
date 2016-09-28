@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.ServletContext;
@@ -22,17 +21,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import cs544.fooddelivery.domain.Category;
 import cs544.fooddelivery.domain.Delivery;
 import cs544.fooddelivery.domain.FoodItem;
-import cs544.fooddelivery.domain.Status;
 import cs544.fooddelivery.domain.Supplier;
 import cs544.fooddelivery.domain.User;
+import cs544.fooddelivery.log.LogWriter;
 import cs544.fooddelivery.order.OrderService;
 import cs544.fooddelivery.usermgmt.UserMgmtService;
-import cs544.fooddelivery.usermgmt.UserProxy;
 
 @Controller
 public class SupplierController {
@@ -53,6 +49,9 @@ public class SupplierController {
 	@Autowired
 	OrderService orderService;
 	
+	@Autowired
+	private LogWriter logWriter;
+	
 	@RequestMapping("/supplier")
 	public String displaySupplierDashboard(ModelMap model){
 		long supplierId = userService.getLoggedInUser().getId();
@@ -68,6 +67,9 @@ public class SupplierController {
 	public String foodItemAdd(ModelMap model){
 		model.addAttribute("categories", this.supplierService.getAllCategories());
 		model.addAttribute("foodItem",new FoodItem());
+		
+//		logWriter.wr
+		
 		return "addFoodItem";
 	}
 	
@@ -140,6 +142,7 @@ public class SupplierController {
 	@RequestMapping(value="/supplier/makeDelivery", method=RequestMethod.POST)
 	public String makeDelivery(@RequestParam(value="orderIds[]") String[] orderIds){
 		supplierService.saveDelivery(new Date(), orderIds);
+		logWriter.writeInfoLog("Delivery scheduled by supplier: " + userService.getLoggedInUser().getUserName());
 		return "redirect:/supplier";
 	}
 	
@@ -160,6 +163,7 @@ public class SupplierController {
 	@RequestMapping(value="/supplier/deliveries/{deliveryId}", method=RequestMethod.POST)
 	public String deliveryDetailUpdate(@PathVariable long deliveryId, @RequestParam(value="distance") int distance){
 		supplierService.completeDelivery(deliveryId, new Date(), distance);
+		logWriter.writeInfoLog("Delivery completed by supplier " + userService.getLoggedInUser().getUserName());
 		return "redirect:/supplier/deliveries";
 	}
 }

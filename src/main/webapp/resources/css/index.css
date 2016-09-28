@@ -16,21 +16,17 @@ td,th {
 	 padding: 10px;
 }
 
-#foodItemForm table, th, td {
-    border: 0px solid black;
-}
-
-#tblManageFoodItem th, td {
+table th, td {
     border: 1px solid LightGray;
 }
 
-#foodItemForm .button{
+.button{
 	width:100px;
 }
 
-#foodItemForm{
+/* #foodItemForm{
 	margin-left:20px;
-}
+} */
 
 input {
 	height:24px;

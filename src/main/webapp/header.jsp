@@ -43,7 +43,7 @@
 				 | <a href="<c:url value='/logout' />">Logout</a>
 			</c:when>
 			<c:otherwise>
-				<a href="<c:url value='/login'/>">Login</a> | <a href="<c:url value='/signin'/>">SignIn</a>
+				<a href="<c:url value='/login'/>">Login</a> | <a href="<c:url value='/signup'/>">SignIn</a>
 			</c:otherwise>
 		</c:choose>
 	</span>
