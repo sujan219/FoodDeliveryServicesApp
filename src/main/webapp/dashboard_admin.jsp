@@ -10,8 +10,7 @@
 <title>Admin</title>
 </head>
 <body>
-	<%@ include file="header.jsp"%>
-					<h3>Categories</h3>	 
+	<h3>Categories</h3>	 
 	<table border="1" cellpadding="10" bordercolor="black">
    
     <tr>

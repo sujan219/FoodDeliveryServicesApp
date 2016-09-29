@@ -34,11 +34,13 @@
 			</tr>
 		</c:forEach>
 	</table>
+	<h3>Total price : $${sessionScope.order.getTotalPrice()}</h3>
 	<br/>
 	<b><u>Shipping Address</u></b>
 	<form:form modelAttribute="user" method="POST" action="placeOrder">
 		<form:hidden path="id" />
 		<form:hidden path="userType" />
+		<form:hidden path="fullName" />
 		<table>
 
 			<tr>

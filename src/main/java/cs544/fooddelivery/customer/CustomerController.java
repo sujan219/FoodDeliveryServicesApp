@@ -28,7 +28,6 @@ import cs544.fooddelivery.usermgmt.UserMgmtService;
 import cs544.fooddelivery.usermgmt.UserProxy;
 
 @Controller
-@SessionAttributes({"cart"})
 public class CustomerController {
 
 	@Autowired
@@ -43,8 +42,6 @@ public class CustomerController {
 	@Autowired
 	private OrderService orderService;
 	
-	@Autowired
-	private EmailService mailSender;
 	
 	@Autowired
 	private LogWriter logWriter;
@@ -157,7 +154,7 @@ public class CustomerController {
 			
 			orderService.save(cart);
 			
-			session.setAttribute("order", null);	
+			//session.setAttribute("order", null);	
 			logWriter.writeInfoLog("An order of id: " + cart.getId() + " has been placed for " + domainUser.getUserName());
 			return "redirect:home";
 	}

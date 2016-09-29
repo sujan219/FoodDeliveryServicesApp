@@ -75,18 +75,14 @@
 		<put-attribute name="header" value="/header2.jsp" />	
 		<put-attribute name="body" value="/dashboard_admin.jsp" />
 	</definition>
-	
-	
+	<definition name="addCategory" extends="base.definition">
+		<put-attribute name="header" value="/header2.jsp" />	
+		<put-attribute name="body" value="/addCategory.jsp" />
+	</definition>
 	<definition name="editCategory" extends="base.definition">
 		<put-attribute name="header" value="/header2.jsp" />	
 		<put-attribute name="body" value="/editCategory.jsp" />
 	</definition>
-	
-		<definition name="addCategory" extends="base.definition">
-		<put-attribute name="header" value="/header2.jsp" />	
-		<put-attribute name="body" value="/addCategory.jsp" />
-	</definition>
-	
 	<definition name="orderReport" extends="base.definition">
 		<put-attribute name="header" value="/header2.jsp" />	
 		<put-attribute name="body" value="/orderReport.jsp" />

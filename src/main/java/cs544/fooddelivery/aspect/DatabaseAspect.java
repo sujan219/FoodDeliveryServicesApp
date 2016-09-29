@@ -1,5 +1,10 @@
 package cs544.fooddelivery.aspect;
 
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
@@ -11,7 +16,10 @@ import org.springframework.ui.ModelMap;
 import org.springframework.util.StopWatch;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import cs544.fooddelivery.domain.Order;
+import cs544.fooddelivery.domain.OrderLine;
 import cs544.fooddelivery.domain.User;
+import cs544.fooddelivery.emailSender.EmailService;
 import cs544.fooddelivery.log.LogWriter;
 
 @Aspect
@@ -19,6 +27,9 @@ public class DatabaseAspect {
 	
 	@Autowired
 	private LogWriter logWriter;
+	
+	@Autowired
+	private EmailService emailService;
 	
 	@Around("execution(* cs544.fooddelivery.repositories..*.*(..))")
 	public Object logTime(ProceedingJoinPoint joinPoint) throws Throwable {
@@ -38,8 +49,23 @@ public class DatabaseAspect {
 	}
 	
 	@After("execution(* cs544.fooddelivery.customer.CustomerController.placeOrder(..))")
-	public void afterPlaceaorder(JoinPoint jp){
+	public void afterPlaceaorder(JoinPoint jp) throws IOException{
 		User user = (User) jp.getArgs()[0];
-		System.out.println("Email send to "+user.getFullName()+" "+user.getEmail());
+		HttpServletRequest request = (HttpServletRequest) jp.getArgs()[1];
+		HttpSession session = request.getSession();
+		
+		Order cart = (Order) session.getAttribute("order");
+		String msg="Dear "+user.getFullName()+", <br>";
+		msg+="<ul>";
+		for(OrderLine o:cart.getOrderLines()){
+			msg+="<li>"+o.getFoodItem().getName()+" $"+o.getFoodItem().getPrice()+" "+o.getQuantity()+"</li>";
+		}
+		msg+="</ul>";
+		msg+="Total Price : $"+cart.getTotalPrice();
+		
+		emailService.sendMail("support@fooddelivery.com", user.getEmail(), "Your New Orders", msg);
+		String message = "Email send to "+user.getFullName()+" "+user.getEmail();
+		logWriter.writeInfoLog(message);
+		//System.out.println();
 	}
 }
